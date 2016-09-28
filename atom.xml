@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Diving into Data</title>
-
+  
   <link href="/atom.xml" rel="self"/>
-
-  <link href="http://yoursite.com/"/>
+  
+  <link href="http://easonlv.github.io/"/>
   <updated>2016-09-24T16:55:25.000Z</updated>
-  <id>http://yoursite.com/</id>
-
+  <id>http://easonlv.github.io/</id>
+  
   <author>
     <name>Eason Lv</name>
-
+    
   </author>
-
+  
   <generator uri="http://hexo.io/">Hexo</generator>
-
+  
   <entry>
     <title>Implemention of QuickSork</title>
-    <link href="http://yoursite.com/2016/09/25/Implemention-of-QuickSork/"/>
-    <id>http://yoursite.com/2016/09/25/Implemention-of-QuickSork/</id>
+    <link href="http://easonlv.github.io/2016/09/25/Implemention-of-QuickSork/"/>
+    <id>http://easonlv.github.io/2016/09/25/Implemention-of-QuickSork/</id>
     <published>2016-09-24T16:55:25.000Z</published>
     <updated>2016-09-24T16:55:25.000Z</updated>
-
+    
     <summary type="html">
-
+    
     </summary>
-
-
+    
+    
   </entry>
-
+  
   <entry>
     <title>Hello World</title>
-    <link href="http://yoursite.com/2016/09/22/hello-world/"/>
-    <id>http://yoursite.com/2016/09/22/hello-world/</id>
+    <link href="http://easonlv.github.io/2016/09/22/hello-world/"/>
+    <id>http://easonlv.github.io/2016/09/22/hello-world/</id>
     <published>2016-09-22T07:14:27.000Z</published>
     <updated>2016-09-22T07:14:27.000Z</updated>
-
+    
     <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
@@ -46,14 +46,14 @@
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
 ]]></content>
-
+    
     <summary type="html">
-
+    
       &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-
+    
     </summary>
-
-
+    
+    
   </entry>
-
+  
 </feed>
