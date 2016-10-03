@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>spark学习之RDD | Diving into Data | null</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="theme-color" content="#3F51B5">
+  
+  
+  <meta name="keywords" content="">
+  <meta name="description" content="1.RDD基础Spark对数据的核心抽象——弹性分布式数据集(Resilient Distributed Dataset,简称RDD)。RDD其实就是分布式的元素集合。在 Spark中,对数据的所有操作不外乎创建 RDD、转化已有RDD以及调用RDD操作进行求值。而在这一切背后,Spark会自动将RDD中的数据分发到集群上,并将操作并行化执行。
+2. 创建RDDSpark提供了两种创建 RDD 的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spark学习之RDD">
+<meta property="og:url" content="http://easonlv.github.io/2016/10/03/spark学习之RDD/index.html">
+<meta property="og:site_name" content="Diving into Data">
+<meta property="og:description" content="1.RDD基础Spark对数据的核心抽象——弹性分布式数据集(Resilient Distributed Dataset,简称RDD)。RDD其实就是分布式的元素集合。在 Spark中,对数据的所有操作不外乎创建 RDD、转化已有RDD以及调用RDD操作进行求值。而在这一切背后,Spark会自动将RDD中的数据分发到集群上,并将操作并行化执行。
+2. 创建RDDSpark提供了两种创建 RDD 的">
+<meta property="og:updated_time" content="2016-10-03T15:50:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spark学习之RDD">
+<meta name="twitter:description" content="1.RDD基础Spark对数据的核心抽象——弹性分布式数据集(Resilient Distributed Dataset,简称RDD)。RDD其实就是分布式的元素集合。在 Spark中,对数据的所有操作不外乎创建 RDD、转化已有RDD以及调用RDD操作进行求值。而在这一切背后,Spark会自动将RDD中的数据分发到集群上,并将操作并行化执行。
+2. 创建RDDSpark提供了两种创建 RDD 的">
+  
+    <link rel="alternative" href="/atom.xml" title="Diving into Data" type="application/atom+xml">
+  
+  <meta name="summary" content="Algorithm Data Mining Machine Learning">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="loading" class="active"></div>
+
+  <nav id="menu" class="hide" >
+   <div class="inner flex-row-vertical">
+  <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+      <i class="icon icon-lg icon-close"></i>
+  </a>
+  <div class="brand-wrap">
+    <div class="brand">
+      <a href="/" class="avatar"><img src="/img/logo.jpg"></a>
+      <hgroup class="introduce">
+        <h5 class="nickname">Eason Lv</h5>
+        <a href="mailto:lvbing0119@foxmail.com" title="lvbing0119@foxmail.com" class="mail">lvbing0119@foxmail.com</a>
+      </hgroup>
+    </div>
+  </div>
+  <div class="scroll-wrap flex-col">
+    <ul class="nav">
+      
+          <li class="waves-block waves-effect">
+            <a href="/"  >
+              <i class="icon icon-lg icon-home"></i>
+              主页
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/archives"  >
+              <i class="icon icon-lg icon-archives"></i>
+              Archives
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/tags"  >
+              <i class="icon icon-lg icon-tags"></i>
+              Tags
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="https://github.com/easonlv" target="_blank" >
+              <i class="icon icon-lg icon-github"></i>
+              Github
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="http://www.weibo.com/lvbing0119" target="_blank" >
+              <i class="icon icon-lg icon-weibo"></i>
+              Weibo
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="https://www.zhihu.com/people/eason-lv" target="_blank" >
+              <i class="icon icon-lg icon-zhihu"></i>
+              Zhihu
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/404"  >
+              <i class="icon icon-lg icon-link"></i>
+              关于我
+            </a>
+          </li>
+      
+    </ul>
+
+    <footer class="footer">
+  <p><a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0;vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAAD///+rsapERER3d3eIiIjMzMzu7u4iIiKUmZO6v7rKzsoODg4RERFVVVUNDQ0NDg0PEA8zMzNLTEtbXltmZmZydnF9gn2AgICPkI+ZmZmqqqq7u7vFxsXIzMgNDQwZGRkgICAhISEkJSMnKCcuMC4xMzE5Ozk7PTtBQkFCQkJDQ0Nna2eGhoaHh4ezuLLGysbd3d1wVGpAAAAA4UlEQVR42q2T1xqCMAyFk7QsBQeKA9x7j/d/OSm22CpX0nzcpA1/T05aAOuBVkMAScQFHLnEwoCo2f1TnQIGoVMewjZEjVFN4GH1Ue1Cn2jWqwfsOOj6wDwGvotsl/c8lv7KIq1eLOsT0HMFHMIE/RZyHnlphryT9zyV+8WH5e8yQw3wnQvgAFxPTKUVi555SHR/lOfLMgVTeDlSfN+TaoUsiTyeIm+bCkHvCA2FUKG48LDtYBZBknsYP/G8NTw0gaaHyuQf4H5pecrB/FYCT2sL9zAfy1Xyjou6L8X2W7YcLyBZCRtnq/zfAAAAAElFTkSuQmCC" /></a></p>
+  <p>Diving into Data &copy; 2016</p>
+  <p>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+  <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></p>
+  <a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-2x icon-rss-square"></i></a>
+</footer>
+
+  </div>
+</div>
+
+  </nav>
+  <main id="main">
+    <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">spark学习之RDD</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input " autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-share">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header">
+  <div class="container">
+    <h1 class="author">spark学习之RDD</h1>
+    <h5 class="subtitle">
+        
+            <time datetime="2016-10-03T15:47:41.000Z" itemprop="datePublished" class="page-time">
+  2016-10-03
+</time>
+
+
+        
+    </h5>
+  </div>
+</header>
+
+    <div class="container body-wrap">
+      <article id="post-spark学习之RDD" 
+  class="article article-type-post" itemprop="blogPost">
+    <div class="post-meta flex-row">
+        
+    </div>
+    <div class="post-body">
+        <aside class="post-widget" id="post-widget">
+
+            
+            <div class="post-share" id="post-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+            
+
+            
+            <nav class="post-toc-wrap" id="post-toc">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-RDD基础"><span class="post-toc-text">1.RDD基础</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-创建RDD"><span class="post-toc-text">2. 创建RDD</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-RDD操作"><span class="post-toc-text">3. RDD操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-1-转化操作"><span class="post-toc-text">3.1 转化操作</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-2-行动操作"><span class="post-toc-text">3.2 行动操作</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-RDD持久化"><span class="post-toc-text">4. RDD持久化</span></a></li></ol>
+            </nav>
+            
+        </aside>
+
+        <div class="post-main">
+
+            <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="1-RDD基础"><a href="#1-RDD基础" class="headerlink" title="1.RDD基础"></a>1.RDD基础</h2><p>Spark对数据的核心抽象——弹性分布式数据集(Resilient Distributed Dataset,简称RDD)。RDD其实就是分布式的元素集合。在 Spark中,对数据的所有操作不外乎创建 RDD、转化已有RDD以及调用RDD操作进行求值。而在这一切背后,Spark会自动将RDD中的数据分发到集群上,并将操作并行化执行。</p>
+<h2 id="2-创建RDD"><a href="#2-创建RDD" class="headerlink" title="2. 创建RDD"></a>2. 创建RDD</h2><p>Spark提供了两种创建 RDD 的方式:  </p>
+<ul>
+<li>读取外部数据集</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">val lines = sc.textFile(&quot;/path/to/README.md&quot;)</div></pre></td></tr></table></figure>
+<ul>
+<li>在程序中对一个集合进行并行化</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> lines = sc.parallelize(<span class="type">List</span>(<span class="string">"pandas"</span>, <span class="string">"i like pandas"</span>))</div></pre></td></tr></table></figure>
+<h2 id="3-RDD操作"><a href="#3-RDD操作" class="headerlink" title="3. RDD操作"></a>3. RDD操作</h2><p>RDD 支持两种操作: <strong>转化操作</strong> <em>transformation</em> 和 <strong>行动操作</strong> <em>action</em></p>
+<h3 id="3-1-转化操作"><a href="#3-1-转化操作" class="headerlink" title="3.1 转化操作"></a>3.1 转化操作</h3><p>转化操作是返回一个新的 RDD 的操作,比如 map() 和 filter()<br>map() 接收一个函数,把这个函数用于 RDD 中的每个元素, 将函数的返回结果作为结果RDD中对应元素的值。 如用Scala 实现map计算 RDD中各值的平方：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">val input = sc.parallelize(List(1, 2, 3, 4))</div><div class="line">val result = input.map(x =&gt; x * x)</div><div class="line">println(result.collect().mkString(&quot;,&quot;))</div></pre></td></tr></table></figure>
+<p>flatMap()和 map() 类似,函数被分别应用到了输入 RDD 的每个元素上,不过返回的不是一个元素,而是一个返回值序列的迭代器。即对每个输入元素生成多个输出元素，得到由各列表中的元素组成的 RDD。<br>filter() 则接收一个函数,并将 RDD 中满足该函数的 元素放入新的 RDD 中返回，如用 Scala 实现 filter() 转化操作:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">val inputRDD = sc.textFile(&quot;log.txt&quot;)</div><div class="line">val errorsRDD = inputRDD.filter(line =&gt; line.contains(&quot;error&quot;))</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th style="text-align:left">功能</th>
+<th style="text-align:left">示例</th>
+<th style="text-align:left">结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>map()</td>
+<td style="text-align:left">将函数应用于 RDD 中的每个元素,将返回值构成新的RDD</td>
+<td style="text-align:left">rdd.map(x =&gt; x + 1)</td>
+<td style="text-align:left">{2, 3, 4, 4}</td>
+</tr>
+<tr>
+<td>flatMap()</td>
+<td style="text-align:left">将函数应用于 RDD 中的每个元素,将返回的迭代器的所有内容构成新的RDD，通常用来切分单词</td>
+<td style="text-align:left">rdd.flatMap(x =&gt; x.to(3))</td>
+<td style="text-align:left">{1, 2, 3,2, 3, 3, 3}</td>
+</tr>
+<tr>
+<td>filter()</td>
+<td style="text-align:left">返回一个由通过传给 filter() 的函数的元素组成的 RDD</td>
+<td style="text-align:left">rdd.filter(x =&gt; x != 1)</td>
+<td style="text-align:left">{2, 3, 3}</td>
+</tr>
+<tr>
+<td>distinct()</td>
+<td style="text-align:left">去重</td>
+<td style="text-align:left">rdd.distinct()</td>
+<td style="text-align:left">{1, 2, 3}</td>
+</tr>
+<tr>
+<td>sample(withReplacement, fraction, [seed])</td>
+<td style="text-align:left">对 RDD 采样,以及是否替换</td>
+<td style="text-align:left">rdd.sample(false, 0.5)</td>
+<td style="text-align:left">非确定的</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-2-行动操作"><a href="#3-2-行动操作" class="headerlink" title="3.2 行动操作"></a>3.2 行动操作</h3><p>行动操作则是向程序返回结果或把结果写入外部系统的操作,会触发实际的计算,比如 count() 和 first()<br>在 Scala 中使用行动操作对错误进行计数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">println(&quot;Input had &quot; + badLinesRDD.count() + &quot; concerning lines&quot;)</div><div class="line">println(&quot;Here are 10 examples:&quot;)</div><div class="line">badLinesRDD.take(10).foreach(println)</div></pre></td></tr></table></figure>
+<p>reduce()接收一个函数作为参数,这个函数操作两个RDD的元素类型的数据并返回一个同样类型的新元素。一个简单的例子就是函数 + ,可以用它来对RDD进行累加。<br>Scala 中的 reduce()：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">val sum = rdd.reduce((x, y) =&gt; x + y)</div></pre></td></tr></table></figure>
+<p>fold() 和 reduce() 类似,接收一个与 reduce() 接收的函数签名相同的函数,再加上一个 “初始值”来作为每个分区第一次调用时的结果。例如 + 对应的 0, * 对应的 1,或拼接操作对应的空列表</p>
+<p> collect() 函数可以用来获取整个 RDD 中的数据，但collect() 不能用在大规模数据集上，仅当整个数据集能在单台机器的内存中放得下时才能使用。<br> saveAsTextFile()、saveAsSequenceFile(),或者任意的其他行动操作来把 RDD 的数据内容以各种自带的格式保存起来。</p>
+<h2 id="4-RDD持久化"><a href="#4-RDD持久化" class="headerlink" title="4. RDD持久化"></a>4. RDD持久化</h2><p>默认情况下RDD的内容是临时的，但Spark提供了在RDD中持久化数据的机制。第一次调用动作并计算出RDD内容后，RDD的内容可以存储在集群的内存或磁盘上。这样下一次需要调用依赖该RDD的动作时，就不需要从依赖关系中重新计算RDD，数据可以从缓存分区中直接返回：</p>
+<blockquote>
+<p>cached.cache()<br>cached.count()<br>cached.take(10)  </p>
+</blockquote>
+<p>在上述代码中，cache方法调用指示在下次计算RDD后，要把RDD存储起来。调用count会导致第一次计算RDD。采取（take）这个动作返回一个本地的Array，包含RDD的前10个元素。但调用take时，访问的是cached已经缓存好的元素，而不是从cached的依赖关系中重新计算出来的。  </p>
+<p>当Spark持久化存储一个RDD 时，计算出 RDD 的节点会分别保存它们所求出的分区数据。如果一个有持久化数据的节点发生故障，Spark会在需要用到缓存的数据时重算丢失的数据分区。Spark为持久化RDD定义了几种不同的机制，用不同的StorageLevel值表示。  </p>
+<p>rdd.cache()是rdd.persist(StorageLevel.MEMORY)的简写，它将RDD存储为未序列化的对象。</p>
+
+
+            
+            <div class="post-reward">
+                <a id="rewardBtn" href="javascript:;" class="post-reward-btn waves-effect waves-circle waves-light">赏</a>
+            </div>
+            
+            
+            <blockquote>
+                <p>
+                本文地址：
+                <a href="http://easonlv.github.io/2016/10/03/spark学习之RDD/" target="_blank" rel="external">http://easonlv.github.io/2016/10/03/spark学习之RDD/</a>
+                </p>
+                <footer><cite><a href="http://easonlv.github.io">@Diving into Data</a></cite></footer>
+            </blockquote>
+            </div>
+            
+<nav class="post-nav">
+  
+
+  
+    <div class="waves-block waves-effect next fr">
+      <a href="/2016/09/25/Implemention-of-QuickSork/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Implemention of QuickSork</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+            
+            
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="spark学习之RDD" data-title="spark学习之RDD" data-url="http://easonlv.github.io/2016/10/03/spark学习之RDD/index.html"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ysblog"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+        </div>
+    </div>
+</article>
+    </div>
+  </main>
+<div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+<script>
+var BLOG_SHARE = {
+    title: "spark学习之RDD",
+    pic: "/img/logo.jpg",
+    summary: document.getElementsByName('summary')[0].content,
+    url: "http://easonlv.github.io/2016/10/03/spark学习之RDD/index.html"
+};
+</script>
+<div class="global-share" id="global-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+
+<div id="reward" class="reward-lay">
+    <a class="reward-off" id="rewardOff" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢支持~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<script type="text/template" id="search-tpl">
+<li class="item">
+    <a href="/{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</script>
+
+<script src="/js/search.js"></script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
