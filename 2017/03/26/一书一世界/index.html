@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>一书一世界 | Diving into Data | null</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="theme-color" content="#3F51B5">
+  
+  
+  <meta name="keywords" content="读书笔记">
+  <meta name="description" content="一书一世界读《岛上书店》岛上书店的原著英文名是The Storied Life of A.J. Fikry，正如英文名直译费克里富有戏剧性的人生，讲述了书店老板A.J.充满故事的生命中，遇到了一些可爱的人，经历着爱与被爱、付出与接受、孤独与陪伴的一生。
+A.J. Fikry住在爱丽丝岛上，一个小岛，他拥有岛上唯一的书店，不过最近他更喜欢喝酒，而不是卖书，因为他在为惨死车祸中的妻子妮可感到悲伤。A.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一书一世界">
+<meta property="og:url" content="http://easonlv.github.io/2017/03/26/一书一世界/index.html">
+<meta property="og:site_name" content="Diving into Data">
+<meta property="og:description" content="一书一世界读《岛上书店》岛上书店的原著英文名是The Storied Life of A.J. Fikry，正如英文名直译费克里富有戏剧性的人生，讲述了书店老板A.J.充满故事的生命中，遇到了一些可爱的人，经历着爱与被爱、付出与接受、孤独与陪伴的一生。
+A.J. Fikry住在爱丽丝岛上，一个小岛，他拥有岛上唯一的书店，不过最近他更喜欢喝酒，而不是卖书，因为他在为惨死车祸中的妻子妮可感到悲伤。A.">
+<meta property="og:updated_time" content="2017-03-26T08:36:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一书一世界">
+<meta name="twitter:description" content="一书一世界读《岛上书店》岛上书店的原著英文名是The Storied Life of A.J. Fikry，正如英文名直译费克里富有戏剧性的人生，讲述了书店老板A.J.充满故事的生命中，遇到了一些可爱的人，经历着爱与被爱、付出与接受、孤独与陪伴的一生。
+A.J. Fikry住在爱丽丝岛上，一个小岛，他拥有岛上唯一的书店，不过最近他更喜欢喝酒，而不是卖书，因为他在为惨死车祸中的妻子妮可感到悲伤。A.">
+  
+    <link rel="alternative" href="/atom.xml" title="Diving into Data" type="application/atom+xml">
+  
+  <meta name="summary" content="Algorithm Data Mining Machine Learning">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="loading" class="active"></div>
+
+  <nav id="menu" class="hide" >
+   <div class="inner flex-row-vertical">
+  <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+      <i class="icon icon-lg icon-close"></i>
+  </a>
+  <div class="brand-wrap">
+    <div class="brand">
+      <a href="/" class="avatar"><img src="/img/logo.jpg"></a>
+      <hgroup class="introduce">
+        <h5 class="nickname">Eason Lv</h5>
+        <a href="mailto:lvbing0119@foxmail.com" title="lvbing0119@foxmail.com" class="mail">lvbing0119@foxmail.com</a>
+      </hgroup>
+    </div>
+  </div>
+  <div class="scroll-wrap flex-col">
+    <ul class="nav">
+      
+          <li class="waves-block waves-effect">
+            <a href="/"  >
+              <i class="icon icon-lg icon-home"></i>
+              主页
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/archives"  >
+              <i class="icon icon-lg icon-archives"></i>
+              Archives
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/tags"  >
+              <i class="icon icon-lg icon-tags"></i>
+              Tags
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="https://github.com/easonlv" target="_blank" >
+              <i class="icon icon-lg icon-github"></i>
+              Github
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="http://www.weibo.com/lvbing0119" target="_blank" >
+              <i class="icon icon-lg icon-weibo"></i>
+              Weibo
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="https://www.zhihu.com/people/eason-lv" target="_blank" >
+              <i class="icon icon-lg icon-zhihu"></i>
+              Zhihu
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/404"  >
+              <i class="icon icon-lg icon-link"></i>
+              关于我
+            </a>
+          </li>
+      
+    </ul>
+
+    <footer class="footer">
+  <p><a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0;vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAAD///+rsapERER3d3eIiIjMzMzu7u4iIiKUmZO6v7rKzsoODg4RERFVVVUNDQ0NDg0PEA8zMzNLTEtbXltmZmZydnF9gn2AgICPkI+ZmZmqqqq7u7vFxsXIzMgNDQwZGRkgICAhISEkJSMnKCcuMC4xMzE5Ozk7PTtBQkFCQkJDQ0Nna2eGhoaHh4ezuLLGysbd3d1wVGpAAAAA4UlEQVR42q2T1xqCMAyFk7QsBQeKA9x7j/d/OSm22CpX0nzcpA1/T05aAOuBVkMAScQFHLnEwoCo2f1TnQIGoVMewjZEjVFN4GH1Ue1Cn2jWqwfsOOj6wDwGvotsl/c8lv7KIq1eLOsT0HMFHMIE/RZyHnlphryT9zyV+8WH5e8yQw3wnQvgAFxPTKUVi555SHR/lOfLMgVTeDlSfN+TaoUsiTyeIm+bCkHvCA2FUKG48LDtYBZBknsYP/G8NTw0gaaHyuQf4H5pecrB/FYCT2sL9zAfy1Xyjou6L8X2W7YcLyBZCRtnq/zfAAAAAElFTkSuQmCC" /></a></p>
+  <p>Diving into Data &copy; 2017</p>
+  <p>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+  <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></p>
+  <a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-2x icon-rss-square"></i></a>
+</footer>
+
+  </div>
+</div>
+
+  </nav>
+  <main id="main">
+    <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">一书一世界</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input " autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-share">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header">
+  <div class="container">
+    <h1 class="author">一书一世界</h1>
+    <h5 class="subtitle">
+        
+            <time datetime="2017-03-26T08:34:11.000Z" itemprop="datePublished" class="page-time">
+  2017-03-26
+</time>
+
+
+        
+    </h5>
+  </div>
+</header>
+
+    <div class="container body-wrap">
+      <article id="post-一书一世界" 
+  class="article article-type-post" itemprop="blogPost">
+    <div class="post-meta flex-row">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书笔记/">读书笔记</a></li></ul>
+
+    </div>
+    <div class="post-body">
+        <aside class="post-widget" id="post-widget">
+
+            
+            <div class="post-share" id="post-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+            
+
+            
+            <nav class="post-toc-wrap" id="post-toc">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一书一世界"><span class="post-toc-text">一书一世界</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#读《岛上书店》"><span class="post-toc-text">读《岛上书店》</span></a></li></ol></li></ol></li></ol>
+            </nav>
+            
+        </aside>
+
+        <div class="post-main">
+
+            <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="一书一世界"><a href="#一书一世界" class="headerlink" title="一书一世界"></a>一书一世界</h1><h3 id="读《岛上书店》"><a href="#读《岛上书店》" class="headerlink" title="读《岛上书店》"></a>读《岛上书店》</h3><p>岛上书店的原著英文名是The Storied Life of A.J. Fikry，正如英文名直译费克里富有戏剧性的人生，讲述了书店老板A.J.充满故事的生命中，遇到了一些可爱的人，经历着爱与被爱、付出与接受、孤独与陪伴的一生。</p>
+<p>A.J. Fikry住在爱丽丝岛上，一个小岛，他拥有岛上唯一的书店，不过最近他更喜欢喝酒，而不是卖书，因为他在为惨死车祸中的妻子妮可感到悲伤。A.J.和妮可是大学的同学，同样都是研究文学的博士生毕业，这也算是志同道合的一对了。妮可去世后，A.J.的颓废使得书店遭遇危机，屋漏偏逢连夜雨，书店里最宝贵的珍藏本图书《帖木儿》也遭窃了。仿佛命运从未眷顾过他，他的内心沦为了荒岛。 </p>
+<p>就在此时，神秘的小女孩玛雅，出现在书店中， 看似A.J.照顾起这个孤儿，其实也是玛雅意外地拯救了陷于孤独绝境中的A.J.，并且成为了连接他和小姨子伊斯梅、警长兰比亚斯、出版社女业务员阿米莉娅之间的纽带。</p>
+<p>阿米莉娅Amelia是一位出版社代表，邀请爱丽丝书店出售本季最新的作品。 A.J.一开始对她并不友好，后来在接触中慢慢心生爱意。这位中年男人不懂的怎样表达，甚至连去她家看望她都很含蓄，连玛雅看着都急，好在最后两个人终在一起。伊斯梅是妮可的姐姐，也就是A.J.的小姨子，可惜遇到了一个花心的丈夫和一个个谎言，最后和警长兰比亚斯心生爱意。兰比亚斯是A.J.的好朋友，职业的敏感让他在伊斯梅家中发现了一些秘密：关于玛雅的身世、那本被盗的书……</p>
+<p>小岛上的主要人物和故事还有很多，但他们的生命紧紧相依，并最终一起走出了人生的困境，遗憾的是A.J.没有战胜肿瘤而离去，书店也有了新的主人，所有对书和生活的热爱都周而复始，愈加汹涌。</p>
+<p>如果你喜欢阅读，喜欢书籍和书店，我相信这是一部能吸引你的小说。这儿有些书中的经典语录。</p>
+<blockquote>
+<p>A.J.：“想要了解一个人，你只需要问一个问题‘你最喜欢哪本书？’”<br>“一旦一个人在乎一件事，就发现自己不得不开始在乎一切事。”</p>
+<p>A.J.向阿米莉亚求婚：“……我可以向你保证有书、有交流，还有我的全心全意，艾米。”</p>
+<p>兰比亚斯：“有时候别人跟你说你踏上一种旅程，结果却成了另外一种旅程。”<br>“生活中每一桩糟糕事，几乎都是时机不当的结果，每件好事，都是时机恰到好处的结果。”</p>
+<p>《迟暮开花》：“因为从心底害怕自己不值得被爱，我们独来独往。然而就是因为独来独往，才让我们以为自己不值得被爱。有一天，你不知道是什么时候，你会驱车上路。有一天，你不知道是什么时候，你会遇见他。你会被爱，因为你今生第一次真正不再孤单。你会选择不再孤单下去。”</p>
+</blockquote>
+<p>我是利用早上上班坐地铁的半个多小时和晚上睡觉前躺床上看一小时书的时间，零散且不急不慢地在读。从一开始的情节迷茫、情感复杂到最后的人物心理反思，隐情的慢慢暴露，从开始的颓废到心里充满希望走出困境，小岛上的生活仿佛与世隔绝，而爱是最好的礼物，让一无所有的孤岛成为丰富美丽的存在。</p>
+<p>所以，每一本书，都是一个世界。</p>
+
+
+            
+            <div class="post-reward">
+                <a id="rewardBtn" href="javascript:;" class="post-reward-btn waves-effect waves-circle waves-light">赏</a>
+            </div>
+            
+            
+            <blockquote>
+                <p>
+                本文地址：
+                <a href="http://easonlv.github.io/2017/03/26/一书一世界/" target="_blank" rel="external">http://easonlv.github.io/2017/03/26/一书一世界/</a>
+                </p>
+                <footer><cite><a href="http://easonlv.github.io">@Diving into Data</a></cite></footer>
+            </blockquote>
+            </div>
+            
+<nav class="post-nav">
+  
+
+  
+    <div class="waves-block waves-effect next fr">
+      <a href="/2017/03/24/Mac系统安装Xgboost/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Mac系统安装Xgboost</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+            
+            
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="一书一世界" data-title="一书一世界" data-url="http://easonlv.github.io/2017/03/26/一书一世界/index.html"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ysblog"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+        </div>
+    </div>
+</article>
+    </div>
+  </main>
+<div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+<script>
+var BLOG_SHARE = {
+    title: "一书一世界",
+    pic: "/img/logo.jpg",
+    summary: document.getElementsByName('summary')[0].content,
+    url: "http://easonlv.github.io/2017/03/26/一书一世界/index.html"
+};
+</script>
+<div class="global-share" id="global-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+
+<div id="reward" class="reward-lay">
+    <a class="reward-off" id="rewardOff" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢支持~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<script type="text/template" id="search-tpl">
+<li class="item">
+    <a href="/{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</script>
+
+<script src="/js/search.js"></script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
