@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Diving into Data</title>
-  
+  <subtitle>略懂一些算法，只会几种编程语言，半栈工程师，不靠谱分析师。</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://easonlv.github.io/"/>
