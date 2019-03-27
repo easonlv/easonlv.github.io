@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://easonlv.github.io/"/>
-  <updated>2017-04-14T05:33:09.000Z</updated>
+  <updated>2019-03-27T11:12:56.545Z</updated>
   <id>http://easonlv.github.io/</id>
   
   <author>
@@ -14,6 +14,148 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>论文笔记《Applying Deep Learning To Airbnb Search》</title>
+    <link href="http://easonlv.github.io/2019/03/27/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%E3%80%8AApplying-Deep-Learning-To-Airbnb-Search%E3%80%8B/"/>
+    <id>http://easonlv.github.io/2019/03/27/论文笔记《Applying-Deep-Learning-To-Airbnb-Search》/</id>
+    <published>2019-03-27T11:10:52.000Z</published>
+    <updated>2019-03-27T11:12:56.545Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="https://static001.infoq.cn/resource/image/38/e2/383d9bff2837a4931e3703508d7a01e2.jpg" alt="airbnb"></p>
+<h1 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h1><p>在Airbnb机器学习应用中，搜索排序是获得最大成功的案例之一。 大多数初始增益是由梯度提升的决策树模型驱动的。 然而，随着时间的推移，收益趋于稳定。 聦是论文讨论了将神经网络应用于一个突破平台的工作。 我们提出的观点并非旨在推动新建模技术的前沿。 相反，我们的故事是我们发现在将神经网络应用于现实生活产品时有用的元素。 深度学习对我们来说是陡峭的学习。 对于开始类似旅程的其他团队，我们希望对我们的挣扎和胜利的描述将提供一些有用的指示。 一路顺风！####### Airbnb 搜索排名的打分函数最早的版本是手动设计的，后来使用 GBDT(gradient boosted decision tree) 模型替换手动设计的打分函数，房屋预定得到了大幅度的提升，接着迭代优化了很多次。经过很长一段时间的迭代优化实验，发现在线预定房屋的收益达到了瓶颈。所以，在这个时候想尝试一些新的突破。</p>
+<h2 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1 Introduction"></a>1 Introduction</h2><p>Airbnb是一个双向市场：hosts房东 vs guests房客 。</p>
+<p>搜索排序模型最早是人工设计的打分函数，就是使用了策略。后来使用了GBDT模型替换了这个策略，Airbnb 的房屋预定得到了大幅度的提升，于是就迭代优化了很多次。</p>
+<p>本文的搜索排名只是 Airbnb 模型生态中的一部分，所有的模型最后的目标都是给客户呈现一个最优的房屋预定列表。生态中的模型有一些是预测房东接受客人预定的概率，一些是预测客人在体验上给五星的概率等。本论文只讨论搜索排名的模型，这个模型负责根据客户预定房屋的可能性给房屋检索列表做一个最优的排序。</p>
+<p>一个成功的搜索会话是以客户开始搜索为开始，以客户预定房屋成功为结束。</p>
+<p>本文主要从以下几个方面展开：</p>
+<ol>
+<li>总结过去一段时间模型架构是如何演变的；</li>
+<li>特征工程和系统工程的思考；</li>
+<li>介绍一些内部工具和超参数方面的探索；</li>
+<li>总结回顾。</li>
+</ol>
+<h1 id="2-Model-Evolution-模型演化"><a href="#2-Model-Evolution-模型演化" class="headerlink" title="2 Model Evolution 模型演化"></a>2 Model Evolution 模型演化</h1><h2 id="2-1-Simple-NN"><a href="#2-1-Simple-NN" class="headerlink" title="2.1 Simple NN"></a>2.1 Simple NN</h2><p>单隐层的NN，32个全连接单元，ReLU激活函数。</p>
+<p>NN的输入特征和GBDT模型一样，训练的目标函数都是最小化 L2 损失函数，都是与GBDT保持一致。</p>
+<h2 id="2-2-Lambdarank-NN"><a href="#2-2-Lambdarank-NN" class="headerlink" title="2.2 Lambdarank NN"></a>2.2 Lambdarank NN</h2><p>将NN和Lambdarank结合使我们首次得到突破。离线我们使用NDCG作为主要指标，因此在NN模型中可以直接优化NDCG，相比于之前的简单NN会有两个重要的改进：</p>
+<ul>
+<li>构造{booked listing, not-booked listing}这个pair对作为训练样本集。训练过程中，最小化预定列表和非预定列表得分之间的交叉熵损失。</li>
+<li>交换两个listing的位置构成一个pair对，然后加权求和。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">apply_discount</span><span class="params">(x)</span>:</span> </div><div class="line">    <span class="string">'''Apply positional discount curve'''</span> </div><div class="line">    <span class="keyword">return</span> np.log(<span class="number">2.0</span>)/np.log(<span class="number">2.0</span> + x)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">compute_weights</span><span class="params">(logit_op, session)</span>:</span> </div><div class="line">    <span class="string">'''Compute loss weights based on delta ndcg. </span></div><div class="line">    logit_op is a [BATCH_SIZE, NUM_SAMPLES] shaped tensor </div><div class="line">    corresponding to the output layer of the network. </div><div class="line">    Each row corresponds to a search and each column a listing in the </div><div class="line">    search result. Column 0 is the booked listing, while columns 1 through </div><div class="line">    NUM_SAMPLES - 1 the not-booked listings. '''</div><div class="line">    logit_vals = session.run(logit_op)</div><div class="line">    ranks = NUM_SAMPLES - <span class="number">1</span> - logit_vals.argsort(axis=<span class="number">1</span>)</div><div class="line">    discounted_non_booking = apply_discount(ranks[:, <span class="number">1</span>:])</div><div class="line">    discounted_booking = apply_discount(np.expand_dims(ranks[:, <span class="number">0</span>], axis=<span class="number">1</span>))</div><div class="line">    discounted_weights = np.abs(discounted_booking - discounted_non_booking)</div><div class="line">    <span class="keyword">return</span> discounted_weight</div><div class="line"></div><div class="line"><span class="comment"># Compute the pairwise loss </span></div><div class="line">pairwise_loss = tf.nn.sigmoid_cross_entropy_with_logits(targets=tf.ones_like(logit_op[:, <span class="number">0</span>]), logits=logit_op[:, <span class="number">0</span>] - logit_op[:, i:] ) </div><div class="line"><span class="comment"># Compute the lambdarank weights based on delta ndcg </span></div><div class="line">weights = compute_weights(logit_op, session) </div><div class="line"><span class="comment">#Multiply pairwise loss by lambdarank weights </span></div><div class="line">loss = tf.reduce_mean(tf.multiply(pairwise_loss, weights))</div></pre></td></tr></table></figure>
+<h2 id="2-3-Decision-Tree-Factorization-Machine-NN"><a href="#2-3-Decision-Tree-Factorization-Machine-NN" class="headerlink" title="2.3 Decision Tree/Factorization Machine NN"></a>2.3 Decision Tree/Factorization Machine NN</h2><p>受到Deep &amp; Cross Network for Ad Click Predictions，也就是DCN的启发，新模型融合了决策树、因子分解机、神经网络三者的优点。 将FM预测的结果作为一个特征加入NN，将GBDT的每棵树的叶子节点index作为一个类别特征加入NN。</p>
+<p><img src="https://static.geekbang.org/infoq/5bf04131e8bce.png?imageView2/0/w/800" alt=""></p>
+<h2 id="2-4-DeepNN"><a href="#2-4-DeepNN" class="headerlink" title="2.4 DeepNN"></a>2.4 DeepNN</h2><p>在最后的尝试中，我们放弃了所有的复杂模型，精简到使用10倍训练数据来训练一个两个隐层的DNN模型。网络架构如下：</p>
+<ul>
+<li>输入层：195 个类别特征做 embedding </li>
+<li>第一个隐层： 127 个全连接 ReLU</li>
+<li>第二个隐层： 83 个全连接 ReLU</li>
+</ul>
+<blockquote>
+<p>至于为啥隐层数目是127、83这样的数字而不是传统的128、64这种2的幂数，我很好奇的问过作者，得到的回复是：I like prime number.</p>
+<p>We later tested Lambdarank vs pairwise loss in isolation and found them neutral in bookings. So we deprecated Lambdarank and now use the pairwise loss as it is much simpler and faster.</p>
+</blockquote>
+<p>包含的特征有：</p>
+<ul>
+<li>简单的属性特征：价格、酒店设施、历史预定统计等</li>
+<li>Smart Pricing：<em>Customized Regression Model for Airbnb Dynamic Pricing</em></li>
+<li>Similarity of listing：<em>Real-time Personalization using Embeddings for Search Ranking at Airbnb</em></li>
+</ul>
+<h1 id="3-Failed-Models"><a href="#3-Failed-Models" class="headerlink" title="3 Failed Models"></a>3 Failed Models</h1><h2 id="3-1-Listing-ID"><a href="#3-1-Listing-ID" class="headerlink" title="3.1 Listing ID"></a>3.1 Listing ID</h2><p>每个Listing都有其相对应的唯一ID，使用Listing id作为特征。</p>
+<p>将高基数的类别特征做Embedding，在很多应用上取得了成功，如NLP中单词的Embedding的应用，谷歌的推荐系统中用户id和视频id的Embedding。</p>
+<p>但是用Listing ids做Embedding特征导致了过拟合问题，究其原因是由于数据量不足。即使是最受欢迎的Listing，也可以在一年中最多预订365次，而且每个Listing的典型预订量要少得多。</p>
+<p>NLP中单词的Embedding时，word可以无限制的重复；谷歌的推荐系统中用户id和视频id的同样也是可以不断重复出现。但是Airbnb的独特业务性质，导致了该方案的失败。</p>
+<h2 id="3-2-Multi-task-learning"><a href="#3-2-Multi-task-learning" class="headerlink" title="3.2 Multi-task learning"></a>3.2 Multi-task learning</h2><p>bookings有物理限制，但是用户浏览listing详情页没有限制。进一步发现，用户长时间的浏览listing详情页和bookings是正相关的。</p>
+<p>为了解决Listing ids过拟合的问题，建立了多任务学习的模型，同时预测一间房间booking的概率和长时间浏览的概率。最重要的是，Listing id的Embedding输入隐层后，在网络模型中进行了共享。因此我们这样做的动机是希望能够从长时间浏览中学习的信息来预测booking，避免过拟合。</p>
+<p>由于长时间浏览的label是远超过bookings用户几个数量级的，在booking loss上使用了更高的权重作为补偿。后面将长时间浏览的label调整为 <em>log(view duration)</em>  ，在线打分时，我们仅使用了预测booking。</p>
+<p>长时间浏览的数据可能由于高端和高价格的listings所主导，</p>
+<p>关于listing的浏览后续会作为一个专题进行深入研究。</p>
+<h1 id="4-特征工程"><a href="#4-特征工程" class="headerlink" title="4 特征工程"></a>4 特征工程</h1><p>刚开始baseline使用的GBDT做了大量的特征工程，典型的特征转换，包括计算比率，窗口滑动平均等等。</p>
+<h2 id="4-1-Feature-normalization"><a href="#4-1-Feature-normalization" class="headerlink" title="4.1 Feature normalization"></a>4.1 Feature normalization</h2><p>刚开始时用与GBDT相同的输入特征来训练NN，效果很差，因为树模型对特征的大小不敏感，而神经网络的输入需要进行归一化。决策树对数值型特征的大小并不是很重要，只要表征有序就可以，而神经网络对此很敏感。如果输入特征的数值超过通常特征值的范围，在做反向传播计算的时候，就会引起大的梯度改变。由于梯度消失，会导致像 ReLU 这样的激活函数处于永久关闭状态。为了避免这个现象的发生，我们要保证所有特征的值域在一个小的范围内变化。通常的做法是让特征的分布值域在｛-1,1｝，中心点映射到 0。</p>
+<ul>
+<li>正态分布的特征进行中心归一化，即 <em>(feature_val − µ)/σ</em></li>
+<li>幂律分布的特征进行log归一化，即 <em>log((1+feature_val)/(1+median))</em></li>
+</ul>
+<blockquote>
+<p>We wanted the feature to be evenly distributed around 0. Putting the median in the denominator ensures that. The offset of 1 is to equalize the offset of 1 in the numerator.</p>
+<p>power law distribution: </p>
+</blockquote>
+<h2 id="4-2-Feature-distribution"><a href="#4-2-Feature-distribution" class="headerlink" title="4.2 Feature distribution"></a>4.2 Feature distribution</h2><p>除了将特征映射到一个限制的数值范围，本文确保绝大部分的特征服从平滑的分布。原因如下：</p>
+<ul>
+<li>定位异常 ( Spotting bugs）：在处理数以亿计的特征样本时，我们如何验证它们中的一小部分没有错误？ 范围检查很有用但有限。 我们发现分布的平滑性是发现错误的宝贵工具，因为错误的分布通常与典型的分布不同。 举个例子，我们在某些地区的价格记录中，存在与市价明显不一致的错误。 这是因为在这些地区，对于超过28天的期间，记录的价格是每月价格而不是每日价格。 这些错误表现为分布图上的尖峰。</li>
+<li>提升泛化（Facilitating generalization）：根据我们应用DNNs进行观察时所积累的经验，输出层的分布会逐渐变得越来越平滑。图 8 画出了最后一层输出的分布，图 9和图 10 分别展示了第一层和第二层的分布</li>
+</ul>
+<p><img src="https://static.geekbang.org/infoq/5bf041327b30e.png?imageView2/0/w/800" alt=""></p>
+<p>我们如何测试模型在登录样本的泛化效果很好呢？在调试并应用适当的标准化时，大多数特征都获得了平滑分布，但有一些我们不得不做专门的特征工程。有个例子是listing的地理位置，由经度和纬度表示。为了使地理特征分布更平滑，通过计算与中心点的偏移量来表征地理特征信息。</p>
+<p><img src="https://static.geekbang.org/infoq/5bf041339a8e0.png?imageView2/0/w/800" alt=""></p>
+<ul>
+<li><p>检查特征完整性（Checking feature completeness）：某些特征的分布不平滑，会导致模型学习信息缺失。有个例子是房屋未来可以被占用的天数。调查发现列表中有一些房屋有最低的住宿要求，可能延长到几个月。但是我们没有在模型中添加最小所需停留时间，因为它取决于日历并且过于复杂。 但是，如果考虑入住率分布，我们添加了listing平均居住时长作为模型的一个特征。</p>
+<p>在一个维度上缺乏平滑分布的一些特征可能在更高维度上变得平滑。 如果这些维度已经可用于模型，那么我们有必要仔细思考，如果没有，那么添加它们。</p>
+</li>
+</ul>
+<h2 id="4-3-High-cardinality-categorical-features"><a href="#4-3-High-cardinality-categorical-features" class="headerlink" title="4.3 High cardinality categorical features"></a>4.3 High cardinality categorical features</h2><p>过拟合的Listing ID不是我们尝试的唯一高基数类别特征。对于NN而言，我们还有其他一些尝试，通过很少的特征工程获得了高回报。 通过一个具体的例子最好证明这一点。 客人对一个城市的各个临近城市的偏好是一个重要的位置信号。 对于GBDT模型，这些信息由一个设计严密的pipeline提供，该pipeline跟踪社区和城市的预订等级分布。 建设和维护这条pipeline所付出的努力是巨大的。 然而，它并未考虑预订房源价格等关键要素。</p>
+<p>在神经网络中，处理这些信息就很简单了。 我们通过获取查询中指定的城市和与Listing对应的12级S2 cell格来创建新的分类特征。</p>
+<p>发现了地理偏好，比如旧金山西海湾南部的位置比跨越桥梁的位置更受欢迎，后者往往交通拥堵频发。</p>
+<p><img src="https://static.geekbang.org/infoq/5bf0413483c0a.png?imageView2/0/w/800" alt="Location preference learnt for the query &quot;San Francisco&quot;"></p>
+<h1 id="5-系统工程"><a href="#5-系统工程" class="headerlink" title="5 系统工程"></a>5 系统工程</h1><ul>
+<li>Protobufs and Datasets </li>
+<li>Refactoring static features</li>
+<li>Java TM NN library</li>
+</ul>
+<h1 id="6-超参数"><a href="#6-超参数" class="headerlink" title="6 超参数"></a>6 超参数</h1><ul>
+<li>Dropout</li>
+</ul>
+<blockquote>
+<p>Dropout as data augmentation. <a href="https://arxiv.org/abs/1506.08700" target="_blank" rel="external">https://arxiv.org/abs/1506.08700</a></p>
+<p>dropout一般被看做很多共享参数模型的集合，即bagging；这篇文章从数据增强角度给予解释，dropout可以看成无领域知识的情况下在输入空间进行数据增强的方法。dropout强迫一个神经单元，和随机挑选出来的其他神经单元共同工作，达到好的效果。消除减弱了神经元节点间的联合适应性，增强了泛化能力。</p>
+</blockquote>
+<ul>
+<li><p>Initialization</p>
+<p>Xavier initialization：$$\text{Var}(W) = \frac{1}{n_\text{in}}$$</p>
+<p>Glorot &amp; Bengio’s paper originally recommended using $$\text{Var}(W) = \frac{2}{n<em>\text{in} + n</em>\text{out}}$$ </p>
+</li>
+<li><p>Learning rate</p>
+</li>
+</ul>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/opt/python/training/lazy_adam_optimizer.py" target="_blank" rel="external">LazyAdamOptimizer</a>   </p>
+<blockquote>
+<p>Tensorflow has a “<a href="https://www.tensorflow.org/versions/r1.9/api_docs/python/tf/contrib/opt/LazyAdamOptimizer" target="_blank" rel="external">Lazy Adam Optimizer</a>“ that only updates the gradient for variables whose indices appear in the current batch. This may be a good idea for very sparse data like language models.</p>
+<p>Vanilla Adam updates all parameters at every step, while lazy Adam only updates parameters that are actually employed – in a sparse setting like a language model, that can make a big difference, because lazy Adam applies no updates to rare words until they appear, at which time they get a big update. More common words are updated more frequently. </p>
+</blockquote>
+<ul>
+<li>Batch size</li>
+</ul>
+<p><a href="https://medium.com/@malay.haldar/how-much-training-data-do-you-need-da8ec091e956" target="_blank" rel="external">How much training data do you need?</a></p>
+<h1 id="7-特征重要性"><a href="#7-特征重要性" class="headerlink" title="7 特征重要性"></a>7 特征重要性</h1><p>总的来说，评估特征重要性和模型可解释性是我们向NN转移的一个领域。评估特征重要性对于优先考虑工程工作和指导模型迭代至关重要。 NN的优势在于理解特征之间的非线性组合。 当理解特定特征扮演什么角色时，这也是一个弱点，因为非线性交互使得单独研究任何特征变得非常困难。 接下来，我们将重述一些破译NN的尝试。</p>
+<ul>
+<li><p>分数分数（Score Decomposition）：我们最初的做法是获取神经网络产生的最终得分，并尝试将其分解为各个节点贡献得分。没有纯净的方法来分离是特定传入节点的影响，还是像ReLU这样的非线性激活函数的影响。</p>
+</li>
+<li><p>消除测试（Ablation Test）：</p>
+</li>
+<li><p>Permutation Test</p>
+</li>
+<li><p>TopBot Analysis：我们自创了一个工具，旨在不以任何方式扰乱特征来解释特征，命名为TopBot，是上下分析器的缩写。将测试集作为输入，并使用模型对每个测试qurey对应的列表进行排序。 然后，它从每个query顶部排名listing中生成特征值的分布图，并将它们与底部listing中的特征值分布进行比较。</p>
+<p>可以看到price在top listing和bottom listing还是有区别的，top listing更倾向于拥有相对小的price，表示模型对价格敏感。而review count却没有任何区别。 从这里，也可以得到一些信息。</p>
+<p><img src="https://static.geekbang.org/infoq/5bf042f95bdf4.png?imageView2/0/w/800" alt="feature importance"></p>
+</li>
+</ul>
+<h1 id="8-回顾总结"><a href="#8-回顾总结" class="headerlink" title="8 回顾总结"></a>8 回顾总结</h1><p>  图15总结了我们迄今为止的深度学习历程。在无处不在的深度学习成功故事的基础上，我们开始处于乐观的高峰期，认为深度学习将成为GBDT模型的替代品，并为我们带来惊人的收益。许多初步讨论都集中在保持其他一切不变，并用神经网络取代当前模型，以了解我们可以获得的收益。这使我们陷入绝望之谷，最初这些收益都没有实现。事实上，我们在开始时看到的只是在线指标的回归。随着时间的推移，我们意识到转向深度学习根本不是替代模型;而是关于扩展系统。因此，它需要重新思考模型周围的整个系统。限制在较小的尺度，像GBDT这样的型号可以说性能相当，更容易处理，我们继续将它们用于集中的中型问题。</p>
+<p>  那么我们是否会向其他人推荐深度学习？那将是一个全心全意的。而且这不仅是因为该模型在线表现的强劲增长。其中一部分与深度学习如何改变我们的路线图有关。早期的重点主要是功能工程，但在深入学习之后，尝试手动对功能进行更好的数学运算已经失去了光彩。这使我们能够在更高层次上解决问题，例如我们如何改进优化目标，并且我们是否准确地代表了所有用户？在采用神经网络搜索排名的第一步后两年，我们觉得我们刚刚开始。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://static001.infoq.cn/resource/image/38/e2/383d9bff2837a4931e3703508d7a01e2.jpg&quot; alt=&quot;airbnb&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;Abstract&quot;&gt;&lt;a hr
+    
+    </summary>
+    
+    
+      <category term="Deep Learning" scheme="http://easonlv.github.io/tags/Deep-Learning/"/>
+    
+      <category term="paper" scheme="http://easonlv.github.io/tags/paper/"/>
+    
+  </entry>
   
   <entry>
     <title>Spark中ml和mlib的区别</title>
@@ -134,11 +276,11 @@
     <link href="http://easonlv.github.io/2017/04/10/%E4%BB%8E%E6%99%8B%E5%8C%97%E5%88%B0%E6%99%8B%E4%B8%AD-Day1/"/>
     <id>http://easonlv.github.io/2017/04/10/从晋北到晋中-Day1/</id>
     <published>2017-04-10T12:06:02.000Z</published>
-    <updated>2017-04-10T13:39:14.000Z</updated>
+    <updated>2017-04-14T05:37:10.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="从晋北到晋中"><a href="#从晋北到晋中" class="headerlink" title="从晋北到晋中"></a>从晋北到晋中</h1><h2 id="Day1-北岳恒山-2107-4-2"><a href="#Day1-北岳恒山-2107-4-2" class="headerlink" title="Day1 北岳恒山 (2107.4.2.)"></a>Day1 北岳恒山 (2107.4.2.)</h2><blockquote>
-<p>“人间四月芳菲尽，蕾红叶绿四季春。”今年的春天来的有点晚，这个时节的北方依然是春寒料峭。关于行走山西的计划，一直在我笔记本的List上。平日一直忙于工作，假期去哪也未曾想过，所以临时起意去山西，主要还是北京到山西比较近，更好的利用三天假期时间。清明时节，没有雨纷纷。4月1日在公司里继续忙碌完一天下班后，去超市购物回家后，收拾行李，准备第二天一早的行程。</p>
-<p>放假前一天才开始准确行程，略显仓促，没有传说中的说走就走那么惬意。现在每一次的旅行对于我来说，不愿在行走之前的工作日去花时间做计划，那会打乱工作的节奏，相反，我会选择在旅行过程中忘掉工作，随意而行，期待未知的风景。</p>
+<p>“人间四月芳菲尽，蕾红叶绿四季春。”今年的春天来的有点晚，这个时节的北方依然是春寒料峭。关于行走山西的计划，一直在我笔记本的List上。平日一直忙于工作，假期去哪也未曾想过，所以临时起意去山西，主要还是北京到山西比较近，更好的利用三天假期时间。清明时节，没有雨纷纷。4月1日在公司里继续忙碌完一天下班后，去超市购物回家后，收拾行李，准备第二天一早的行程。  </p>
+<p>放假前一天才开始准确行程，略显仓促，没有传说中的说走就走那么惬意。现在每一次的旅行对于我来说，不愿在行走之前的工作日去花时间做计划，那会打乱工作的节奏，相反，我会选择在旅行过程中忘掉工作，随意而行，期待未知的风景。  </p>
 <p>没有华丽或雅致的文字，没有绝美或文艺的照片，仅为记录这次旅途中的点点滴滴。</p>
 </blockquote>
 <p><img src="http://c4-q.mafengwo.net/s10/M00/43/20/wKgBZ1jjxTeAJopPAAUnGn0YWuQ28.jpeg" alt="heng-mountain"></p>
