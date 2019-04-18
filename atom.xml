@@ -22,7 +22,7 @@
     <published>2019-04-18T14:48:47.000Z</published>
     <updated>2019-04-18T14:49:26.033Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="test"><a href="#test" class="headerlink" title="test"></a>test</h2><p>$$<br>\begin{eqnarray}<br>\nabla\cdot\vec{E} &amp;=&amp; \frac{\rho}{\epsilon_0} \<br>\nabla\cdot\vec{B} &amp;=&amp; 0 \<br>\nabla\times\vec{E} &amp;=&amp; -\frac{\partial B}{\partial t} \<br>\nabla\times\vec{B} &amp;=&amp; \mu_0\left(\vec{J}+\epsilon_0\frac{\partial E}{\partial t} \right)<br>\end{eqnarray}<br>$$</p>
+    <content type="html"><![CDATA[<h2 id="test"><a href="#test" class="headerlink" title="test"></a>test</h2><p>$$<br>\begin{eqnarray}<br>\nabla\cdot\vec{E} &amp;=&amp; \frac{\rho}{\epsilon_0} \\<br>\nabla\cdot\vec{B} &amp;=&amp; 0 \\<br>\nabla\times\vec{E} &amp;=&amp; -\frac{\partial B}{\partial t} \\<br>\nabla\times\vec{B} &amp;=&amp; \mu_0\left(\vec{J}+\epsilon_0\frac{\partial E}{\partial t} \right)<br>\end{eqnarray}<br>$$</p>
 ]]></content>
     
     <summary type="html">
@@ -131,7 +131,7 @@
 <ul>
 <li><p>Initialization</p>
 <p>Xavier initialization：$$\text{Var}(W) = \frac{1}{n_\text{in}}$$</p>
-<p>Glorot &amp; Bengio’s paper originally recommended using $$\text{Var}(W) = \frac{2}{n<em>\text{in} + n</em>\text{out}}$$</p>
+<p>Glorot &amp; Bengio’s paper originally recommended using $$\text{Var}(W) = \frac{2}{n_\text{in} + n_\text{out}}$$</p>
 </li>
 <li><p>Learning rate</p>
 </li>
