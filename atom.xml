@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://easonlv.github.io/"/>
-  <updated>2019-04-18T14:49:26.033Z</updated>
+  <updated>2019-04-18T14:47:19.355Z</updated>
   <id>http://easonlv.github.io/</id>
   
   <author>
@@ -14,25 +14,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>test</title>
-    <link href="http://easonlv.github.io/2019/04/18/test/"/>
-    <id>http://easonlv.github.io/2019/04/18/test/</id>
-    <published>2019-04-18T14:48:47.000Z</published>
-    <updated>2019-04-18T14:49:26.033Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="test"><a href="#test" class="headerlink" title="test"></a>test</h2><p>$$<br>\begin{eqnarray}<br>\nabla\cdot\vec{E} &amp;=&amp; \frac{\rho}{\epsilon_0} \\<br>\nabla\cdot\vec{B} &amp;=&amp; 0 \\<br>\nabla\times\vec{E} &amp;=&amp; -\frac{\partial B}{\partial t} \\<br>\nabla\times\vec{B} &amp;=&amp; \mu_0\left(\vec{J}+\epsilon_0\frac{\partial E}{\partial t} \right)<br>\end{eqnarray}<br>$$</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;test&quot;&gt;&lt;a href=&quot;#test&quot; class=&quot;headerlink&quot; title=&quot;test&quot;&gt;&lt;/a&gt;test&lt;/h2&gt;&lt;p&gt;$$&lt;br&gt;\begin{eqnarray}&lt;br&gt;\nabla\cdot\vec{E} &amp;amp;=&amp;amp; \frac
-    
-    </summary>
-    
-    
-  </entry>
   
   <entry>
     <title>论文笔记《Applying Deep Learning To Airbnb Search》</title>
