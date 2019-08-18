@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://easonlv.github.io/"/>
-  <updated>2019-04-18T14:47:19.355Z</updated>
+  <updated>2019-04-18T14:47:19.356Z</updated>
   <id>http://easonlv.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://easonlv.github.io/2019/03/27/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%E3%80%8AApplying-Deep-Learning-To-Airbnb-Search%E3%80%8B/"/>
     <id>http://easonlv.github.io/2019/03/27/论文笔记《Applying-Deep-Learning-To-Airbnb-Search》/</id>
     <published>2019-03-27T11:10:52.000Z</published>
-    <updated>2019-04-18T14:47:19.355Z</updated>
+    <updated>2019-04-18T14:47:19.356Z</updated>
     
     <content type="html"><![CDATA[<p><img src="https://static001.infoq.cn/resource/image/38/e2/383d9bff2837a4931e3703508d7a01e2.jpg" alt="airbnb"></p>
 <h1 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h1><p>在Airbnb机器学习应用中，搜索排序是获得最大成功的案例之一。 大多数初始增益是由梯度提升的决策树模型驱动的。 然而，随着时间的推移，收益趋于稳定。 聦是论文讨论了将神经网络应用于一个突破平台的工作。 我们提出的观点并非旨在推动新建模技术的前沿。 相反，我们的故事是我们发现在将神经网络应用于现实生活产品时有用的元素。 深度学习对我们来说是陡峭的学习。 对于开始类似旅程的其他团队，我们希望对我们的挣扎和胜利的描述将提供一些有用的指示。 一路顺风！####### Airbnb 搜索排名的打分函数最早的版本是手动设计的，后来使用 GBDT(gradient boosted decision tree) 模型替换手动设计的打分函数，房屋预定得到了大幅度的提升，接着迭代优化了很多次。经过很长一段时间的迭代优化实验，发现在线预定房屋的收益达到了瓶颈。所以，在这个时候想尝试一些新的突破。</p>
