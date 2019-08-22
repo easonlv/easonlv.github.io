@@ -10,22 +10,22 @@
   
   
   <meta name="keywords" content="Deep Learning,paper">
-  <meta name="description" content="Abstract在Airbnb机器学习应用中，搜索排序是获得最大成功的案例之一。 大多数初始增益是由梯度提升的决策树模型驱动的。 然而，随着时间的推移，收益趋于稳定。 聦是论文讨论了将神经网络应用于一个突破平台的工作。 我们提出的观点并非旨在推动新建模技术的前沿。 相反，我们的故事是我们发现在将神经网络应用于现实生活产品时有用的元素。 深度学习对我们来说是陡峭的学习。 对于开始类似旅程的其他团队">
+  <meta name="description" content="Abstract在Airbnb机器学习应用中，搜索排序是获得最大成功的案例之一。大多数初始收益是来自于梯度提升决策树模型（即GBDT）。 然而，随着时间的推移收益趋于稳定。 本文讨论了我们尝试应用神经网络的这样一个突破性的工作。我们提出的观点并非旨在推动新建模技术的前沿。 相反，我们的故事是我们发现在将神经网络应用于现实生活产品时有用的元素。对我们来说是深度学习的曲线比较陡。但对于开始类似工作的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="论文笔记《Applying Deep Learning To Airbnb Search》">
 <meta property="og:url" content="http://easonlv.github.io/2019/03/27/论文笔记《Applying-Deep-Learning-To-Airbnb-Search》/index.html">
 <meta property="og:site_name" content="Diving into Data">
-<meta property="og:description" content="Abstract在Airbnb机器学习应用中，搜索排序是获得最大成功的案例之一。 大多数初始增益是由梯度提升的决策树模型驱动的。 然而，随着时间的推移，收益趋于稳定。 聦是论文讨论了将神经网络应用于一个突破平台的工作。 我们提出的观点并非旨在推动新建模技术的前沿。 相反，我们的故事是我们发现在将神经网络应用于现实生活产品时有用的元素。 深度学习对我们来说是陡峭的学习。 对于开始类似旅程的其他团队">
+<meta property="og:description" content="Abstract在Airbnb机器学习应用中，搜索排序是获得最大成功的案例之一。大多数初始收益是来自于梯度提升决策树模型（即GBDT）。 然而，随着时间的推移收益趋于稳定。 本文讨论了我们尝试应用神经网络的这样一个突破性的工作。我们提出的观点并非旨在推动新建模技术的前沿。 相反，我们的故事是我们发现在将神经网络应用于现实生活产品时有用的元素。对我们来说是深度学习的曲线比较陡。但对于开始类似工作的">
 <meta property="og:image" content="https://static001.infoq.cn/resource/image/38/e2/383d9bff2837a4931e3703508d7a01e2.jpg">
 <meta property="og:image" content="https://static.geekbang.org/infoq/5bf04131e8bce.png?imageView2/0/w/800">
 <meta property="og:image" content="https://static.geekbang.org/infoq/5bf041327b30e.png?imageView2/0/w/800">
 <meta property="og:image" content="https://static.geekbang.org/infoq/5bf041339a8e0.png?imageView2/0/w/800">
 <meta property="og:image" content="https://static.geekbang.org/infoq/5bf0413483c0a.png?imageView2/0/w/800">
 <meta property="og:image" content="https://static.geekbang.org/infoq/5bf042f95bdf4.png?imageView2/0/w/800">
-<meta property="og:updated_time" content="2019-04-18T14:47:19.356Z">
+<meta property="og:updated_time" content="2019-08-22T07:16:35.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="论文笔记《Applying Deep Learning To Airbnb Search》">
-<meta name="twitter:description" content="Abstract在Airbnb机器学习应用中，搜索排序是获得最大成功的案例之一。 大多数初始增益是由梯度提升的决策树模型驱动的。 然而，随着时间的推移，收益趋于稳定。 聦是论文讨论了将神经网络应用于一个突破平台的工作。 我们提出的观点并非旨在推动新建模技术的前沿。 相反，我们的故事是我们发现在将神经网络应用于现实生活产品时有用的元素。 深度学习对我们来说是陡峭的学习。 对于开始类似旅程的其他团队">
+<meta name="twitter:description" content="Abstract在Airbnb机器学习应用中，搜索排序是获得最大成功的案例之一。大多数初始收益是来自于梯度提升决策树模型（即GBDT）。 然而，随着时间的推移收益趋于稳定。 本文讨论了我们尝试应用神经网络的这样一个突破性的工作。我们提出的观点并非旨在推动新建模技术的前沿。 相反，我们的故事是我们发现在将神经网络应用于现实生活产品时有用的元素。对我们来说是深度学习的曲线比较陡。但对于开始类似工作的">
 <meta name="twitter:image" content="https://static001.infoq.cn/resource/image/38/e2/383d9bff2837a4931e3703508d7a01e2.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Diving into Data" type="application/atom+xml">
@@ -93,7 +93,7 @@
           <li class="waves-block waves-effect">
             <a href="https://www.zhihu.com/" target="_blank" >
               <i class="icon icon-lg icon-question"></i>
-              Question
+              Zhihu
             </a>
           </li>
       
@@ -107,7 +107,6 @@
     </ul>
 
     <footer class="footer">
-  <p><a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0;vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAAD///+rsapERER3d3eIiIjMzMzu7u4iIiKUmZO6v7rKzsoODg4RERFVVVUNDQ0NDg0PEA8zMzNLTEtbXltmZmZydnF9gn2AgICPkI+ZmZmqqqq7u7vFxsXIzMgNDQwZGRkgICAhISEkJSMnKCcuMC4xMzE5Ozk7PTtBQkFCQkJDQ0Nna2eGhoaHh4ezuLLGysbd3d1wVGpAAAAA4UlEQVR42q2T1xqCMAyFk7QsBQeKA9x7j/d/OSm22CpX0nzcpA1/T05aAOuBVkMAScQFHLnEwoCo2f1TnQIGoVMewjZEjVFN4GH1Ue1Cn2jWqwfsOOj6wDwGvotsl/c8lv7KIq1eLOsT0HMFHMIE/RZyHnlphryT9zyV+8WH5e8yQw3wnQvgAFxPTKUVi555SHR/lOfLMgVTeDlSfN+TaoUsiTyeIm+bCkHvCA2FUKG48LDtYBZBknsYP/G8NTw0gaaHyuQf4H5pecrB/FYCT2sL9zAfy1Xyjou6L8X2W7YcLyBZCRtnq/zfAAAAAElFTkSuQmCC" /></a></p>
   <p>Diving into Data &copy; 2019</p>
 </footer>
 
@@ -216,7 +215,7 @@
 
             <div class="post-content" id="post-content" itemprop="postContent">
             <p><img src="https://static001.infoq.cn/resource/image/38/e2/383d9bff2837a4931e3703508d7a01e2.jpg" alt="airbnb"></p>
-<h1 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h1><p>在Airbnb机器学习应用中，搜索排序是获得最大成功的案例之一。 大多数初始增益是由梯度提升的决策树模型驱动的。 然而，随着时间的推移，收益趋于稳定。 聦是论文讨论了将神经网络应用于一个突破平台的工作。 我们提出的观点并非旨在推动新建模技术的前沿。 相反，我们的故事是我们发现在将神经网络应用于现实生活产品时有用的元素。 深度学习对我们来说是陡峭的学习。 对于开始类似旅程的其他团队，我们希望对我们的挣扎和胜利的描述将提供一些有用的指示。 一路顺风！####### Airbnb 搜索排名的打分函数最早的版本是手动设计的，后来使用 GBDT(gradient boosted decision tree) 模型替换手动设计的打分函数，房屋预定得到了大幅度的提升，接着迭代优化了很多次。经过很长一段时间的迭代优化实验，发现在线预定房屋的收益达到了瓶颈。所以，在这个时候想尝试一些新的突破。</p>
+<h1 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h1><p>在Airbnb机器学习应用中，搜索排序是获得最大成功的案例之一。大多数初始收益是来自于梯度提升决策树模型（即GBDT）。 然而，随着时间的推移收益趋于稳定。 本文讨论了我们尝试应用神经网络的这样一个突破性的工作。我们提出的观点并非旨在推动新建模技术的前沿。 相反，我们的故事是我们发现在将神经网络应用于现实生活产品时有用的元素。对我们来说是深度学习的曲线比较陡。但对于开始类似工作的其他团队来说，希望对我们的挣扎和胜利的描述将提供一些有用的指示。 一路顺风！</p>
 <h2 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1 Introduction"></a>1 Introduction</h2><p>Airbnb是一个双向市场：hosts房东 vs guests房客 。</p>
 <p>搜索排序模型最早是人工设计的打分函数，就是使用了策略。后来使用了GBDT模型替换了这个策略，Airbnb 的房屋预定得到了大幅度的提升，于是就迭代优化了很多次。</p>
 <p>本文的搜索排名只是 Airbnb 模型生态中的一部分，所有的模型最后的目标都是给客户呈现一个最优的房屋预定列表。生态中的模型有一些是预测房东接受客人预定的概率，一些是预测客人在体验上给五星的概率等。本论文只讨论搜索排名的模型，这个模型负责根据客户预定房屋的可能性给房屋检索列表做一个最优的排序。</p>
@@ -352,6 +351,13 @@
             </div>
             
 <nav class="post-nav">
+  
+    <div class="waves-block waves-effect prev fl">
+      <a href="/2019/08/22/CCF推荐-国际学术会议/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">CCF推荐 国际学术会议</h4>
+      </a>
+    </div>
   
 
   
