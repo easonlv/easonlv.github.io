@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>Diving into Data | 略懂一些算法，只会几种编程语言，半栈工程师，不靠谱分析师。</title>
@@ -16,6 +16,7 @@
 <meta property="og:url" content="http://easonlv.github.io/index.html">
 <meta property="og:site_name" content="Diving into Data">
 <meta property="og:description" content="Algorithm Data Mining Machine Learning">
+<meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Diving into Data">
 <meta name="twitter:description" content="Algorithm Data Mining Machine Learning">
@@ -26,7 +27,7 @@
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
 <body>
   <div id="loading" class="active"></div>
 
@@ -146,6 +147,48 @@
       <ul class="post-list">
   
     <li class="post-list-item">
+        <article id="post-Tensorflow中自定义Loss Function"
+  class="article article-type-post" itemprop="blogPost">
+     
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/08/25/Tensorflow中自定义Loss Function/">Tensorflow中自定义Loss Function</a>
+    </h3>
+  
+
+
+
+    <div class="post-meta">
+        <time datetime="2019-08-25T15:05:38.577Z" itemprop="datePublished" class="post-time">
+  2019-08-25
+</time>
+
+        
+
+
+    </div>
+
+    <div class="post-content" id="post-content" itemprop="postContent" >
+
+    
+           1.交叉熵损失函数  交叉熵H(p,q)是指按照不真实分布q来编码样本p所需的编码长度的期望。交叉熵损失是神经网络分类问题中常见的损失函数，用来判断模型对真实概率分布估计的准确程度，q(x)是预测的概率分布，p(x) 是真实的概率分布（在多分类问题的 one-hot 编码） $$ H(p,q)=-\sum_x p(x) log\ q(x) $$ 
+ 二分类问题又可进一步展开为： $$H(y,
+    
+    
+        <a href="/2019/08/25/Tensorflow中自定义Loss Function/" class="post-more waves-effect waves-button">
+            阅读全文...
+        </a>
+    </div>
+    
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tensorflow/">tensorflow</a></li></ul>
+
+</article>
+
+    </li>
+  
+    <li class="post-list-item">
         <article id="post-CCF推荐-国际学术会议"
   class="article article-type-post" itemprop="blogPost">
      
@@ -202,14 +245,14 @@
     </li>
   
     <li class="post-list-item">
-        <article id="post-论文笔记《Applying-Deep-Learning-To-Airbnb-Search》"
+        <article id="post-KDD2018_Applying-Deep-Learning-To-Airbnb-Search"
   class="article article-type-post" itemprop="blogPost">
      
 
 
   
     <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/03/27/论文笔记《Applying-Deep-Learning-To-Airbnb-Search》/">论文笔记《Applying Deep Learning To Airbnb Search》</a>
+      <a class="post-title-link" href="/2019/03/27/KDD2018_Applying-Deep-Learning-To-Airbnb-Search/">论文笔记《Applying Deep Learning To Airbnb Search》</a>
     </h3>
   
 
@@ -232,7 +275,7 @@
    Abstract  在Airbnb机器学习应用中，搜索排序是获得最大成功的案例之一。大多数初始收益是来自于梯度提升决策树模型（即GBDT）。 然而，随着时间的推移收益趋于稳定。 本文讨论了我们尝试应用神经网络的这样一个突破性的工作。我们提出的观点并非旨在推动新建模技术的前沿。 相反，我们的故事是我们发现在将神经网络应用于现实生活产品时有用的元素。对我们来说是深度学习的曲线比较陡。但对
     
     
-        <a href="/2019/03/27/论文笔记《Applying-Deep-Learning-To-Airbnb-Search》/" class="post-more waves-effect waves-button">
+        <a href="/2019/03/27/KDD2018_Applying-Deep-Learning-To-Airbnb-Search/" class="post-more waves-effect waves-button">
             阅读全文...
         </a>
     </div>
@@ -550,53 +593,6 @@
     </div>
     
 	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
-
-</article>
-
-    </li>
-  
-    <li class="post-list-item">
-        <article id="post-Implemention-of-QuickSork"
-  class="article article-type-post" itemprop="blogPost">
-     
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2016/09/25/Implemention-of-QuickSork/">Implemention of QuickSork</a>
-    </h3>
-  
-
-
-
-    <div class="post-meta">
-        <time datetime="2016-09-24T16:55:25.000Z" itemprop="datePublished" class="post-time">
-  2016-09-25
-</time>
-
-        
-
-
-    </div>
-
-    <div class="post-content" id="post-content" itemprop="postContent" >
-
-    
-           快速排序  ###算法过程  快速排序  的思想很简单，整个排序过程只需要三步： 
- 
- 在数据集之中，找一个基准点； 
- 建立两个数组，分别存储左边和右边的数组； 
- 利用递归进行下次比较。 
- 
-   Java代码       1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22  23
-    
-    
-        <a href="/2016/09/25/Implemention-of-QuickSork/" class="post-more waves-effect waves-button">
-            阅读全文...
-        </a>
-    </div>
-    
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
 
 </article>
 

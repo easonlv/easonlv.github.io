@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Tensorflow中自定义Loss Function | Diving into Data | 略懂一些算法，只会几种编程语言，半栈工程师，不靠谱分析师。</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="theme-color" content="#3F51B5">
+  
+  
+  <meta name="keywords" content="tensorflow">
+  <meta name="description" content="1.交叉熵损失函数交叉熵H(p,q)是指按照不真实分布q来编码样本p所需的编码长度的期望。交叉熵损失是神经网络分类问题中常见的损失函数，用来判断模型对真实概率分布估计的准确程度，q(x)是预测的概率分布，p(x) 是真实的概率分布（在多分类问题的 one-hot 编码）$$H(p,q)=-\sum_x p(x) log\ q(x)$$ 二分类问题又可进一步展开为：$$H(y,a)=H_y(a)=−">
+<meta name="keywords" content="tensorflow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tensorflow中自定义Loss Function">
+<meta property="og:url" content="http://easonlv.github.io/2019/08/25/Tensorflow中自定义Loss Function/index.html">
+<meta property="og:site_name" content="Diving into Data">
+<meta property="og:description" content="1.交叉熵损失函数交叉熵H(p,q)是指按照不真实分布q来编码样本p所需的编码长度的期望。交叉熵损失是神经网络分类问题中常见的损失函数，用来判断模型对真实概率分布估计的准确程度，q(x)是预测的概率分布，p(x) 是真实的概率分布（在多分类问题的 one-hot 编码）$$H(p,q)=-\sum_x p(x) log\ q(x)$$ 二分类问题又可进一步展开为：$$H(y,a)=H_y(a)=−">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-08-25T15:24:00.178Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tensorflow中自定义Loss Function">
+<meta name="twitter:description" content="1.交叉熵损失函数交叉熵H(p,q)是指按照不真实分布q来编码样本p所需的编码长度的期望。交叉熵损失是神经网络分类问题中常见的损失函数，用来判断模型对真实概率分布估计的准确程度，q(x)是预测的概率分布，p(x) 是真实的概率分布（在多分类问题的 one-hot 编码）$$H(p,q)=-\sum_x p(x) log\ q(x)$$ 二分类问题又可进一步展开为：$$H(y,a)=H_y(a)=−">
+  
+    <link rel="alternative" href="/atom.xml" title="Diving into Data" type="application/atom+xml">
+  
+  <meta name="summary" content="Algorithm Data Mining Machine Learning">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="loading" class="active"></div>
+
+  <nav id="menu" class="hide" >
+   <div class="inner flex-row-vertical">
+  <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+      <i class="icon icon-lg icon-close"></i>
+  </a>
+  <div class="brand-wrap">
+    <div class="brand">
+      <a href="/" class="avatar"><img src="/img/logo.jpg"></a>
+      <hgroup class="introduce">
+        <h5 class="nickname">Eason Lv</h5>
+        <a href="mailto:lvbing0119@foxmail.com" title="lvbing0119@foxmail.com" class="mail">lvbing0119@foxmail.com</a>
+      </hgroup>
+    </div>
+  </div>
+  <div class="scroll-wrap flex-col">
+    <ul class="nav">
+      
+          <li class="waves-block waves-effect">
+            <a href="/"  >
+              <i class="icon icon-lg icon-home"></i>
+              主页
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/archives"  >
+              <i class="icon icon-lg icon-archives"></i>
+              Archives
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/tags"  >
+              <i class="icon icon-lg icon-tags"></i>
+              Tags
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="https://github.com/" target="_blank" >
+              <i class="icon icon-lg icon-github"></i>
+              Github
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="http://www.weibo.com/" target="_blank" >
+              <i class="icon icon-lg icon-weibo"></i>
+              Weibo
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="https://www.zhihu.com/" target="_blank" >
+              <i class="icon icon-lg icon-question"></i>
+              Zhihu
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/about"  >
+              <i class="icon icon-lg icon-link"></i>
+              关于我
+            </a>
+          </li>
+      
+    </ul>
+
+    <footer class="footer">
+  <p>Diving into Data &copy; 2019</p>
+</footer>
+
+  </div>
+</div>
+
+  </nav>
+  <main id="main">
+    <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Tensorflow中自定义Loss Function</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input " autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-share">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header">
+  <div class="container">
+    <h1 class="author">Tensorflow中自定义Loss Function</h1>
+    <h5 class="subtitle">
+        
+            <time datetime="2019-08-25T15:05:38.577Z" itemprop="datePublished" class="page-time">
+  2019-08-25
+</time>
+
+
+        
+    </h5>
+  </div>
+</header>
+
+    <div class="container body-wrap">
+      <article id="post-Tensorflow中自定义Loss Function" 
+  class="article article-type-post" itemprop="blogPost">
+    <div class="post-meta flex-row">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tensorflow/">tensorflow</a></li></ul>
+
+    </div>
+    <div class="post-body">
+        <aside class="post-widget" id="post-widget">
+
+            
+            <div class="post-share" id="post-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+            
+
+            
+            <nav class="post-toc-wrap" id="post-toc">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#1-交叉熵损失函数"><span class="post-toc-text">1.交叉熵损失函数</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#2-TensorFlow交叉熵实现"><span class="post-toc-text">2.TensorFlow交叉熵实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-1-tf-nn-softmax-cross-entropy-with-logits-v2"><span class="post-toc-text">2.1 tf.nn.softmax_cross_entropy_with_logits_v2</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-2-tf-nn-sparse-softmax-cross-entropy-with-logits"><span class="post-toc-text">2.2 tf.nn.sparse_softmax_cross_entropy_with_logits</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-3-tf-nn-sigmoid-cross-entropy-with-logits"><span class="post-toc-text">2.3 tf.nn. sigmoid_cross_entropy_with_logits</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-4-tf-nn-weighted-cross-entropy-with-logits"><span class="post-toc-text">2.4 tf.nn.weighted_cross_entropy_with_logits</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#3-TensorFlow自定义损失函数"><span class="post-toc-text">3 TensorFlow自定义损失函数</span></a></li></ol>
+            </nav>
+            
+        </aside>
+
+        <div class="post-main">
+
+            <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="1-交叉熵损失函数"><a href="#1-交叉熵损失函数" class="headerlink" title="1.交叉熵损失函数"></a>1.交叉熵损失函数</h1><p>交叉熵H(p,q)是指按照不真实分布q来编码样本p所需的编码长度的期望。交叉熵损失是神经网络分类问题中常见的损失函数，用来判断模型对真实概率分布估计的准确程度，q(x)是预测的概率分布，p(x) 是真实的概率分布（在多分类问题的 one-hot 编码）<br>$$<br>H(p,q)=-\sum_x p(x) log\ q(x)<br>$$</p>
+<p>二分类问题又可进一步展开为：<br>$$H(y,a)=H_y(a)=−(yloga+(1−y)log(1−a)) $$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># y_ 真实输出值，y 预测值</span></span><br><span class="line">y_ = tf.placeholder(tf.float32, [<span class="literal">None</span>, <span class="number">10</span>])</span><br><span class="line">cross_ent = -tf.reduce_mean(tf.reduce_sum(y_*tf.log(y), reduce_indices=[<span class="number">1</span>]))</span><br></pre></td></tr></table></figure>
+<h1 id="2-TensorFlow交叉熵实现"><a href="#2-TensorFlow交叉熵实现" class="headerlink" title="2.TensorFlow交叉熵实现"></a>2.TensorFlow交叉熵实现</h1><p>TensorFlow中交叉熵的损失函数（loss function）主要有以下几种：</p>
+<h2 id="2-1-tf-nn-softmax-cross-entropy-with-logits-v2"><a href="#2-1-tf-nn-softmax-cross-entropy-with-logits-v2" class="headerlink" title="2.1 tf.nn.softmax_cross_entropy_with_logits_v2"></a>2.1 tf.nn.softmax_cross_entropy_with_logits_v2</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">softmax_cross_entropy_with_logits_v2</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    _sentinel=None,</span></span></span><br><span class="line"><span class="function"><span class="params">    labels=None,</span></span></span><br><span class="line"><span class="function"><span class="params">    logits=None,</span></span></span><br><span class="line"><span class="function"><span class="params">    dim=<span class="number">-1</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    name=None)</span>:</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Computes softmax cross entropy between logits and labels</p>
+</blockquote>
+<p>原来的函数为nn.softmax_cross_entropy_with_logits，现在deprecated，位于nn_ops.py文件下。</p>
+<p>softmax交叉熵loss，参数为网络最后一层的输出和onehot形式的标签。衡量独立互斥离散分类任务的误差，each entry is in exactly one class。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">logits = tf.constant([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>], [<span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>]], tf.float64)</span><br><span class="line">y = tf.nn.softmax(logits)</span><br><span class="line">y_ = tf.constant([[<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>], [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>]], tf.float64)</span><br><span class="line"></span><br><span class="line">cross_ent = -tf.reduce_sum(y_ * tf.log(y))</span><br><span class="line">cross_ent2 = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits_v2(logits=logits, labels=y_))</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    print(<span class="string">'cross_ent: '</span>, sess.run(cross_ent))</span><br><span class="line">    print(<span class="string">'cross_ent2: '</span>, sess.run(cross_ent2))</span><br></pre></td></tr></table></figure>
+<h2 id="2-2-tf-nn-sparse-softmax-cross-entropy-with-logits"><a href="#2-2-tf-nn-sparse-softmax-cross-entropy-with-logits" class="headerlink" title="2.2 tf.nn.sparse_softmax_cross_entropy_with_logits"></a>2.2 tf.nn.sparse_softmax_cross_entropy_with_logits</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sparse_softmax_cross_entropy_with_logits</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    _sentinel=None,</span></span></span><br><span class="line"><span class="function"><span class="params">    labels=None,</span></span></span><br><span class="line"><span class="function"><span class="params">    logits=None,</span></span></span><br><span class="line"><span class="function"><span class="params">    name=None)</span>:</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Computes sparse softmax cross entropy between logits and labels</p>
+</blockquote>
+<p>这个函数和上面的区别就是labels参数应该是没有经过onehot的标签，其余的都是一样的。</p>
+<h2 id="2-3-tf-nn-sigmoid-cross-entropy-with-logits"><a href="#2-3-tf-nn-sigmoid-cross-entropy-with-logits" class="headerlink" title="2.3 tf.nn. sigmoid_cross_entropy_with_logits"></a>2.3 tf.nn. sigmoid_cross_entropy_with_logits</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sigmoid_cross_entropy_with_logits</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    _sentinel=None,</span></span></span><br><span class="line"><span class="function"><span class="params">    labels=None,</span></span></span><br><span class="line"><span class="function"><span class="params">    logits=None,</span></span></span><br><span class="line"><span class="function"><span class="params">    name=None)</span>:</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Computes sigmoid cross entropy given logits</p>
+</blockquote>
+<p>sigmoid交叉熵loss，与softmax不同的是，该函数首先进行sigmoid操作之后计算交叉熵的损失函数。衡量独立互斥离散分类任务的误差，可以处理多分类任务中的多目标检测，多标记学习等。</p>
+<p>实现方式如下：</p>
+<blockquote>
+<p>let <code>x = logits</code>, <code>z = labels</code><br>The logistic loss = max(x, 0) - x * z + log(1 + exp(-abs(x)))</p>
+</blockquote>
+<h2 id="2-4-tf-nn-weighted-cross-entropy-with-logits"><a href="#2-4-tf-nn-weighted-cross-entropy-with-logits" class="headerlink" title="2.4 tf.nn.weighted_cross_entropy_with_logits"></a>2.4 tf.nn.weighted_cross_entropy_with_logits</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">weighted_cross_entropy_with_logits</span><span class="params">(targets, logits, pos_weight, name=None)</span>:</span></span><br></pre></td></tr></table></figure>
+<p>交叉熵损失通常定义为：<br>$$ targets <em> -log(sigmoid(logits)) + (1 - targets) </em> -log(1 - sigmoid(logits)) $$</p>
+<p>而这种正例加权的损失函数定义为：<br>$$targets <em> -log(sigmoid(logits)) </em> pos_weight + (1 - targets) * -log(1 - sigmoid(logits)) $$</p>
+<p>当设置参数 pos_weight&gt;1 时，减少了False Negative的数量，增加了召回率。</p>
+<p>当设置参数 pos_weight&lt;1 时，减少了False Positive的数量，增加了准确率。</p>
+<p>实现方式如下：</p>
+<blockquote>
+<p>let <code>x = logits</code>, <code>z = targets</code>, <code>q = pos_weight</code>,<br>setting <code>l = (1 + (q - 1) * z)</code><br>loss = (1 - z) <em> x + l </em> (log(1 + exp(-abs(x))) + max(-x, 0))</p>
+</blockquote>
+<h1 id="3-TensorFlow自定义损失函数"><a href="#3-TensorFlow自定义损失函数" class="headerlink" title="3 TensorFlow自定义损失函数"></a>3 TensorFlow自定义损失函数</h1><p>TensorFlow 不仅支持经典的损失的损失函数，还可以优化任意的自定义损失函数。有两个办法：</p>
+<p>其一、你自己用C++写一个。你需要把tensorflow的源代码下载下来，然后自己用C++写一个函数。可参考Adding an op。</p>
+<p>其二、你把你自己定义的损失函数用tensorflow中的标准函数表示出来。比如你需要MSE（虽然这个已经有了），可以写成 loss = tf.reduce_mean(tf.square(tf.sub(y_real, y_pred)))</p>
+<p>例子来源于《Tensorflow实战Google深度学习框架》<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">使用交叉熵损失函数的神经网络分类demo</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> numpy.random <span class="keyword">import</span> RandomState</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.environ[<span class="string">'TF_CPP_MIN_LOG_LEVEL'</span>] = <span class="string">'2'</span></span><br><span class="line"></span><br><span class="line">batch_size=<span class="number">8</span></span><br><span class="line">x=tf.placeholder(tf.float32,shape=(<span class="literal">None</span>,<span class="number">2</span>),name=<span class="string">'x_input'</span>)</span><br><span class="line">y_=tf.placeholder(tf.float32,shape=(<span class="literal">None</span>,<span class="number">1</span>),name=<span class="string">'y_input'</span>)</span><br><span class="line">w2=tf.Variable(tf.random_normal([<span class="number">3</span>,<span class="number">1</span>],stddev=<span class="number">1</span>,seed=<span class="number">1</span>))</span><br><span class="line">w1=tf.Variable(tf.random_normal([<span class="number">2</span>,<span class="number">3</span>],stddev=<span class="number">1</span>,seed=<span class="number">1</span>))</span><br><span class="line">a=tf.matmul(x,w1)</span><br><span class="line">y=tf.matmul(a,w2)</span><br><span class="line"></span><br><span class="line"><span class="comment">#定义损失函数和反向传播算法</span></span><br><span class="line"><span class="comment">#自定义交叉熵</span></span><br><span class="line">cross_entropy=-tf.reduce_mean(y_*tf.log(tf.clip_by_value(y,<span class="number">1e-10</span>,<span class="number">1.0</span>)))</span><br><span class="line">train_step=tf.train.AdamOptimizer(<span class="number">0.001</span>).minimize(cross_entropy)</span><br><span class="line"><span class="comment">#模拟生成训练集</span></span><br><span class="line">rdm=RandomState(<span class="number">1</span>)</span><br><span class="line">dataset_size=<span class="number">128</span></span><br><span class="line">X=rdm.rand(dataset_size,<span class="number">2</span>)</span><br><span class="line">Y=[[int(x1+x2&lt;<span class="number">1</span>)]<span class="keyword">for</span> (x1,x2) <span class="keyword">in</span> X]</span><br><span class="line"><span class="comment">#0、1二分类</span></span><br><span class="line">print(X.shape)</span><br><span class="line">print(Y)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    init_op=tf.global_variables_initializer()</span><br><span class="line">    sess.run(init_op)</span><br><span class="line">    print(sess.run(w1))</span><br><span class="line">    print(sess.run(w2))</span><br><span class="line"></span><br><span class="line">    STEPS=<span class="number">5000</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(STEPS):</span><br><span class="line">        start = ( i* batch_size)%dataset_size</span><br><span class="line">        end= min(start+batch_size,dataset_size)</span><br><span class="line">        <span class="comment">#通过选取的样本训练神经网络或训练参数</span></span><br><span class="line">        sess.run(train_step,feed_dict=&#123;x: X[start:end], y_ : Y[start:end]&#125;)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> i % <span class="number">1000</span> == <span class="number">0</span>:</span><br><span class="line">            <span class="comment">#计算每隔一段时间所有数据的交叉熵并输出</span></span><br><span class="line">            total_cross_entropy=sess.run(cross_entropy,feed_dict=&#123;x:X,y_:Y&#125;)</span><br><span class="line">            print(<span class="string">"After %d training steps,cross entropy on all data is %g"</span>%(i,total_cross_entropy))</span><br><span class="line">    print(sess.run(w1))</span><br><span class="line">    print(sess.run(w2))</span><br></pre></td></tr></table></figure></p>
+<p>对于理想的分类问题和回归问题，可采用交叉熵或者MSE损失函数，但是对于一些实际的问题，理想的损失函数可能在表达上不能完全表达损失情况，以至于影响对结果的优化。例如：对于产品销量预测问题，表面上是一个回归问题，可使用MSE损失函数。可实际情况下，当预测值大于实际值时，损失值应是正比于商品成本的函数；当预测值小于实际值，损失值是正比于商品利润的函数，多数情况下商品成本和利润是不对等的。自定义损失函数如下：<br>$$<br>Loss(y,y’)=\sum_{i=1}^n f(y_i,y’_i),<br>f(x,y)= \left{<br>\begin{matrix}<br>a(x-y), x &gt; y \<br>b(y-x), x \leqslant y<br>\end{matrix} \right.<br>$$</p>
+<p>代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">使用自定义损失函数的神经网络回归demo</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> numpy.random <span class="keyword">import</span> RandomState</span><br><span class="line"></span><br><span class="line">batch_size=<span class="number">8</span></span><br><span class="line"></span><br><span class="line">x=tf.placeholder(tf.float32,shape=(<span class="literal">None</span>,<span class="number">2</span>),name=<span class="string">'x_input'</span>)</span><br><span class="line">y_=tf.placeholder(tf.float32,shape=(<span class="literal">None</span>,<span class="number">1</span>),name=<span class="string">'y_input'</span>)</span><br><span class="line">w1=tf.Variable(tf.random_normal([<span class="number">2</span>,<span class="number">1</span>],stddev=<span class="number">1</span>,seed=<span class="number">1</span>))</span><br><span class="line"><span class="comment">#预测值</span></span><br><span class="line">y=tf.matmul(x,w1)</span><br><span class="line"></span><br><span class="line">loss_less=<span class="number">10</span></span><br><span class="line">loss_more=<span class="number">1</span></span><br><span class="line"><span class="comment">#定义损失函数和反向传播算法</span></span><br><span class="line"><span class="comment">#自定义损失函数</span></span><br><span class="line">loss=tf.reduce_sum(tf.where(tf.greater(y,y_),(y-y_)*loss_more,(y_-y)*loss_less))</span><br><span class="line"></span><br><span class="line">train_step=tf.train.AdamOptimizer(<span class="number">0.001</span>).minimize(loss)</span><br><span class="line">rdm=RandomState(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">dataset_size=<span class="number">128</span></span><br><span class="line">X=rdm.rand(dataset_size,<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">Y=[[x1+x2+rdm.rand()/<span class="number">10.0</span><span class="number">-0.05</span>]<span class="keyword">for</span> (x1,x2) <span class="keyword">in</span> X]</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    init_op=tf.global_variables_initializer()</span><br><span class="line">    sess.run(init_op)</span><br><span class="line">    STEPS=<span class="number">5000</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(STEPS):</span><br><span class="line">        start = (i * batch_size) % dataset_size</span><br><span class="line">        end= min(start+batch_size,dataset_size)</span><br><span class="line">        <span class="comment">#通过选取的样本训练神经网络或训练参数</span></span><br><span class="line">        sess.run(train_step,feed_dict=&#123;x: X[start:end], y_ : Y[start:end]&#125;)</span><br><span class="line">    print(sess.run(w1))</span><br></pre></td></tr></table></figure></p>
+
+
+            
+            <div class="post-reward">
+                <a id="rewardBtn" href="javascript:;" class="post-reward-btn waves-effect waves-circle waves-light">赏</a>
+            </div>
+            
+            
+            <blockquote>
+                <p>
+                本文地址：
+                <a href="http://easonlv.github.io/2019/08/25/Tensorflow中自定义Loss Function/" target="_blank" rel="external">http://easonlv.github.io/2019/08/25/Tensorflow中自定义Loss Function/</a>
+                </p>
+                <footer><cite><a href="http://easonlv.github.io">@Diving into Data</a></cite></footer>
+            </blockquote>
+            </div>
+            
+<nav class="post-nav">
+  
+
+  
+    <div class="waves-block waves-effect next fr">
+      <a href="/2019/08/22/CCF推荐-国际学术会议/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">CCF推荐 国际学术会议</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+            
+            
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Tensorflow中自定义Loss Function" data-title="Tensorflow中自定义Loss Function" data-url="http://easonlv.github.io/2019/08/25/Tensorflow中自定义Loss Function/index.html"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ysblog"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+        </div>
+    </div>
+</article>
+    </div>
+  </main>
+<div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+<script>
+var BLOG_SHARE = {
+    title: "Tensorflow中自定义Loss Function",
+    pic: "/img/logo.jpg",
+    summary: document.getElementsByName('summary')[0].content,
+    url: "http://easonlv.github.io/2019/08/25/Tensorflow中自定义Loss Function/index.html"
+};
+</script>
+<div class="global-share" id="global-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+
+<div id="reward" class="reward-lay">
+    <a class="reward-off" id="rewardOff" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢支持~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<script type="text/template" id="search-tpl">
+<li class="item">
+    <a href="/{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</script>
+
+<script src="/js/search.js"></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
