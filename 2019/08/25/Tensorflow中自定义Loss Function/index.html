@@ -18,7 +18,7 @@
 <meta property="og:site_name" content="Diving into Data">
 <meta property="og:description" content="1.交叉熵损失函数交叉熵H(p,q)是指按照不真实分布q来编码样本p所需的编码长度的期望。交叉熵损失是神经网络分类问题中常见的损失函数，用来判断模型对真实概率分布估计的准确程度，q(x)是预测的概率分布，p(x) 是真实的概率分布（在多分类问题的 one-hot 编码）$$H(p,q)=-\sum_x p(x) log\ q(x)$$ 二分类问题又可进一步展开为：$$H(y,a)=H_y(a)=−">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-26T03:48:40.435Z">
+<meta property="og:updated_time" content="2019-08-31T04:20:15.346Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tensorflow中自定义Loss Function">
 <meta name="twitter:description" content="1.交叉熵损失函数交叉熵H(p,q)是指按照不真实分布q来编码样本p所需的编码长度的期望。交叉熵损失是神经网络分类问题中常见的损失函数，用来判断模型对真实概率分布估计的准确程度，q(x)是预测的概率分布，p(x) 是真实的概率分布（在多分类问题的 one-hot 编码）$$H(p,q)=-\sum_x p(x) log\ q(x)$$ 二分类问题又可进一步展开为：$$H(y,a)=H_y(a)=−">
@@ -139,10 +139,12 @@
     <h1 class="author">Tensorflow中自定义Loss Function</h1>
     <h5 class="subtitle">
         
-            <time datetime="2019-08-25T15:05:38.577Z" itemprop="datePublished" class="page-time">
+            <time datetime="2019-08-25T02:10:10.000Z" itemprop="datePublished" class="page-time">
   2019-08-25
 </time>
 
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/机器学习/">机器学习</a></li></ul>
 
         
     </h5>
@@ -235,8 +237,8 @@
 <p>let <code>x = logits</code>, <code>z = labels</code><br>The logistic loss = max(x, 0) - x * z + log(1 + exp(-abs(x)))</p>
 </blockquote>
 <h2 id="2-4-tf-nn-weighted-cross-entropy-with-logits"><a href="#2-4-tf-nn-weighted-cross-entropy-with-logits" class="headerlink" title="2.4 tf.nn.weighted_cross_entropy_with_logits"></a>2.4 tf.nn.weighted_cross_entropy_with_logits</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">weighted_cross_entropy_with_logits</span><span class="params">(targets, logits, pos_weight, name=None)</span>:</span></span><br></pre></td></tr></table></figure>
-<p>交叉熵损失通常定义为:<br>$$<br>loss_usual = targets <em> -log(sigmoid(logits)) + (1 - targets) </em> -log(1 - sigmoid(logits))<br>$$</p>
-<p>而这种正例加权的损失函数定义为:<br>$$<br>loss_weight = targets <em> -log(sigmoid(logits)) </em> pos_weight + (1 - targets) * -log(1 - sigmoid(logits))<br>$$</p>
+<p>交叉熵损失通常定义为:<br>$$ loss_usual = targets * -log(sigmoid(logits)) + (1 - targets) * -log(1 - sigmoid(logits)) $$</p>
+<p>而这种正例加权的损失函数定义为:<br>$$<br>loss_weight = targets * -log(sigmoid(logits)) * pos_weight + (1 - targets) * -log(1 - sigmoid(logits))<br>$$</p>
 <p>当设置参数 pos_weight&gt;1 时，减少了False Negative的数量，增加了召回率。<br>当设置参数 pos_weight&lt;1 时，减少了False Positive的数量，增加了准确率。</p>
 <p>实现方式如下：</p>
 <blockquote>
@@ -266,6 +268,13 @@
             </div>
             
 <nav class="post-nav">
+  
+    <div class="waves-block waves-effect prev fl">
+      <a href="/2019/08/31/用户画像工业学术界资料全集/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">用户画像工业学术界资料全集</h4>
+      </a>
+    </div>
   
 
   
