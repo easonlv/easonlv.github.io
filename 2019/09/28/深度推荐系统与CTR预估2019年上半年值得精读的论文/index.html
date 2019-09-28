@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>深度推荐系统与CTR预估2019年上半年值得精读的论文 | Diving into Data | 略懂一些算法，只会几种编程语言，半栈工程师，不靠谱分析师。</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="theme-color" content="#3F51B5">
+  
+  
+  <meta name="keywords" content="paper">
+  <meta name="description" content="转载于 https://zhuanlan.zhihu.com/p/72597928  Top-K Off-Policy Correction for a REINFORCE Recommender System, WSDM 2019, Google作者：Minmin Chen, Alex Beutel, Paul Covington, Sagar Jain, Francois Belletti,">
+<meta name="keywords" content="paper">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度推荐系统与CTR预估2019年上半年值得精读的论文">
+<meta property="og:url" content="http://easonlv.github.io/2019/09/28/深度推荐系统与CTR预估2019年上半年值得精读的论文/index.html">
+<meta property="og:site_name" content="Diving into Data">
+<meta property="og:description" content="转载于 https://zhuanlan.zhihu.com/p/72597928  Top-K Off-Policy Correction for a REINFORCE Recommender System, WSDM 2019, Google作者：Minmin Chen, Alex Beutel, Paul Covington, Sagar Jain, Francois Belletti,">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-09-28T11:51:28.852Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深度推荐系统与CTR预估2019年上半年值得精读的论文">
+<meta name="twitter:description" content="转载于 https://zhuanlan.zhihu.com/p/72597928  Top-K Off-Policy Correction for a REINFORCE Recommender System, WSDM 2019, Google作者：Minmin Chen, Alex Beutel, Paul Covington, Sagar Jain, Francois Belletti,">
+  
+    <link rel="alternative" href="/atom.xml" title="Diving into Data" type="application/atom+xml">
+  
+  <meta name="summary" content="Algorithm Data Mining Machine Learning">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="loading" class="active"></div>
+
+  <nav id="menu" class="hide" >
+   <div class="inner flex-row-vertical">
+  <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+      <i class="icon icon-lg icon-close"></i>
+  </a>
+  <div class="brand-wrap">
+    <div class="brand">
+      <a href="/" class="avatar"><img src="/img/logo.jpg"></a>
+      <hgroup class="introduce">
+        <h5 class="nickname">Eason Lv</h5>
+        <a href="mailto:lvbing0119@foxmail.com" title="lvbing0119@foxmail.com" class="mail">lvbing0119@foxmail.com</a>
+      </hgroup>
+    </div>
+  </div>
+  <div class="scroll-wrap flex-col">
+    <ul class="nav">
+      
+          <li class="waves-block waves-effect">
+            <a href="/"  >
+              <i class="icon icon-lg icon-home"></i>
+              主页
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/archives"  >
+              <i class="icon icon-lg icon-archives"></i>
+              Archives
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/tags"  >
+              <i class="icon icon-lg icon-tags"></i>
+              Tags
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="https://github.com/" target="_blank" >
+              <i class="icon icon-lg icon-github"></i>
+              Github
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="http://www.weibo.com/" target="_blank" >
+              <i class="icon icon-lg icon-weibo"></i>
+              Weibo
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="https://www.zhihu.com/" target="_blank" >
+              <i class="icon icon-lg icon-question"></i>
+              Zhihu
+            </a>
+          </li>
+      
+          <li class="waves-block waves-effect">
+            <a href="/about"  >
+              <i class="icon icon-lg icon-link"></i>
+              关于我
+            </a>
+          </li>
+      
+    </ul>
+
+    <footer class="footer">
+  <p>Diving into Data &copy; 2019</p>
+</footer>
+
+  </div>
+</div>
+
+  </nav>
+  <main id="main">
+    <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">深度推荐系统与CTR预估2019年上半年值得精读的论文</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input " autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-share">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header">
+  <div class="container">
+    <h1 class="author">深度推荐系统与CTR预估2019年上半年值得精读的论文</h1>
+    <h5 class="subtitle">
+        
+            <time datetime="2019-09-28T11:49:39.000Z" itemprop="datePublished" class="page-time">
+  2019-09-28
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/搜索推荐广告/">搜索推荐广告</a></li></ul>
+
+        
+    </h5>
+  </div>
+</header>
+
+    <div class="container body-wrap">
+      <article id="post-深度推荐系统与CTR预估2019年上半年值得精读的论文" 
+  class="article article-type-post" itemprop="blogPost">
+    <div class="post-meta flex-row">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/paper/">paper</a></li></ul>
+
+    </div>
+    <div class="post-body">
+        <aside class="post-widget" id="post-widget">
+
+            
+            <div class="post-share" id="post-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+            
+
+            
+            <nav class="post-toc-wrap" id="post-toc">
+            
+            </nav>
+            
+        </aside>
+
+        <div class="post-main">
+
+            <div class="post-content" id="post-content" itemprop="postContent">
+            <p>转载于 <a href="https://zhuanlan.zhihu.com/p/72597928" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/72597928</a></p>
+<ol>
+<li>Top-K Off-Policy Correction for a REINFORCE Recommender System, WSDM 2019, Google<br>作者：Minmin Chen, Alex Beutel, Paul Covington, Sagar Jain, Francois Belletti, Ed Chi；<br>论文：<a href="http://t.cn/EUus1wu；Keynote：http://t.cn/EJFyMBk；" target="_blank" rel="noopener">http://t.cn/EUus1wu；Keynote：http://t.cn/EJFyMBk；</a></li>
+</ol>
+<p>位列首位的当属Youtube推荐强化学习的两篇论文。虽然强化学习目前在推荐系统和CTR预估领域工业界由于系统复杂、效果未有显著提升等众所周知的原因确实不够成熟也尚未大规模应用起来。但是Youtube推荐的这两篇论文从某种程度上让强化学习的应用方向变得更明确了一些，而且作者在Industry Day上也宣称线上实验效果显示这个是YouTube单个项目近两年来最大的reward增长，也从某种程度上会激发各大公司的研究者们继续跟进的兴趣。</p>
+<p>这是第一篇论文，提出了一种Top-K的Off-Policy修正方案将RL中Policy-Gradient类算法得以应用在动作空间数以百万计的Youtube在线推荐系统中。</p>
+<ol start="2">
+<li>Reinforcement Learning for Slate-based Recommender Systems: A Tractable Decomposition and Practical Methodology, IJCAI 2019, Google<br>作者：Eugene Ie, Vihan Jain, Jing Wang, …, Jim McFadden, Tushar Chandra, Craig Boutilier；<br>论文：<a href="http://t.cn/AiKFHvYU；" target="_blank" rel="noopener">http://t.cn/AiKFHvYU；</a></li>
+</ol>
+<p>这是Youtube推荐应用强化学习的第二弹，主要贡献是提出了一种名为SLATEQ的Q-Learning算法，优化推荐系统里面同时展示给用户多个item情况的长期收益LTV（Long-term Value）,将长期收益加入排序多目标中进行建模优化。重点在于与baseline使用的深度网络和输入特征都完全一样。</p>
+<ol start="3">
+<li>Deep Learning Recommendation Model for Personalization and Recommendation Systems<br>作者：Maxim Naumov, Dheevatsa Mudigere, Hao-Jun Michael Shi,…, Bill Jia, Liang Xiong, Misha Smelyanskiy；<br>论文：<a href="http://t.cn/Ai0rIUd0；代码：http://t.cn/AiNGzCsY；解读：http://t.cn/AiOX38PL；" target="_blank" rel="noopener">http://t.cn/Ai0rIUd0；代码：http://t.cn/AiNGzCsY；解读：http://t.cn/AiOX38PL；</a></li>
+</ol>
+<p>FaceBook推荐最新论文，通过建模与系统协同设计提出一种butterfly-shuffle的机制来提升模型并行化，离线训练上在没有任何超参调优下收敛速度与准确率优于DCN，并开源了代码。</p>
+<ol start="4">
+<li>Feature Generation by Convolutional Neural Network for Click-Through Rate Prediction, WWW 2019, Huawei<br>作者：Bin Liu, Ruiming Tang, Yingzhi Chen, Jinkai Yu, Huifeng Guo, Yuzhou Zhang；<br>论文：<a href="http://t.cn/AipAFS3p；" target="_blank" rel="noopener">http://t.cn/AipAFS3p；</a></li>
+</ol>
+<p>华为 at WWW 2019，提出基于卷积神经网络的CTR特征生成方法FGCNN，包含特征生成和深度分类器两部分，可以和任意CTR预估模型进行组合。</p>
+<ol start="5">
+<li>Deep Spatio-Temporal Neural Networks for Click-Through Rate Prediction, KDD 2019, Alibaba<br>作者：Wentao Ouyang, Xiuwu Zhang, Li Li, Heng Zou, Xin Xing, Zhaojie Liu, Yanlong Du；<br>论文：<a href="http://t.cn/Ai0jTY68；代码：http://t.cn/Ai0jTY6u；" target="_blank" rel="noopener">http://t.cn/Ai0jTY68；代码：http://t.cn/Ai0jTY6u；</a></li>
+</ol>
+<p>阿里 at KDD 2019，提出DSTN模型用于点击率CTR预估，考虑更多空域与时域的辅助信息包括上下文展示过的ad以及历史点击/未点击ad来更好地预测目标item的点击率。从论文实验数据看，效果大幅度超过DeepFM和GRU，并开源了代码。</p>
+<ol start="6">
+<li>AutoInt: Automatic Feature Interaction Learning via Self-Attentive Neural Networks<br>作者：Weiping Song, Chence Shi, Zhiping Xiao, Zhijian Duan, Yewen Xu, Ming Zhang, Jian Tang；<br>论文：<a href="http://t.cn/AipG8aXz；代码：http://t.cn/EI8Pnso；" target="_blank" rel="noopener">http://t.cn/AipG8aXz；代码：http://t.cn/EI8Pnso；</a></li>
+</ol>
+<p>最新的深度CTR预估模型AutoInt，通过过Multi-head注意力机制将特征投射到多个子空间中，并在不同的子空间中捕获不同的特征组合形式，效果超过xDeepFM等达到最好。</p>
+<ol start="7">
+<li>Real-time Attention Based Look-alike Model for Recommender System, KDD 2019, Tencent<br>作者：Yudan Liu, Kaikai Ge, Xu Zhang, Leyu Lin<br>论文：<a href="http://t.cn/AiOaAg1Q；解读：http://t.cn/AiOaAg1E；" target="_blank" rel="noopener">http://t.cn/AiOaAg1Q；解读：http://t.cn/AiOaAg1E；</a></li>
+</ol>
+<p>腾讯 at KDD2019，微信看一看团队对传统Look-alike进行了改造，提出实时Look-alike算法RALM，解决推荐系统多样性问题，效果好于YoutubeDNN。</p>
+<ol start="8">
+<li>Joint Optimization of Tree-based Index and Deep Model for Recommender Systems<br>作者：Han Zhu, Daqing Chang, Ziru Xu, Pengye Zhang, Xiang Li, Jie He, Han Li, Jian Xu, Kun Gai；<br>论文：<a href="http://t.cn/AiN5T8Ks；TDM论文：http://t.cn/RQ5MrSg；" target="_blank" rel="noopener">http://t.cn/AiN5T8Ks；TDM论文：http://t.cn/RQ5MrSg；</a></li>
+</ol>
+<p>还记得阿里 at KDD 2018的深度树匹配召回模型TDM吗？升级版JTM提出索引与模型同时优化的方案，大幅提升召回效果。</p>
+<ol start="9">
+<li>A User-Centered Concept Mining System for Query and Document Understanding at Tencent, KDD 2019, Tencent<br>作者：Bang Liu, Weidong Guo, Di Niu, Chaoyue Wang, Shunnan Xu, Jinghong Lin, Kunfeng Lai, Yu Xu<br>论文：<a href="http://t.cn/Ai09Dxkd；解读：http://t.cn/Ai09DxkB；数据资源：http://t.cn/Ai09Dxkr；" target="_blank" rel="noopener">http://t.cn/Ai09Dxkd；解读：http://t.cn/Ai09DxkB；数据资源：http://t.cn/Ai09Dxkr；</a></li>
+</ol>
+<p>腾讯 at KDD2019，构建了ConcepT概念挖掘标记系统，利用query搜索点击日志从用户视角提取不同的概念，以提高对短文本（query）和长文章（document）的理解，从而推动推荐，搜索等业务的提升。实验证明，ConcepT在 QQ 浏览器信息流业务中性能优异，曝光效率相对提升6.01%。</p>
+<ol start="10">
+<li>Deep Session Interest Network for Click-Through Rate Prediction, IJCAI 2019, Alibaba<br>作者：Yufei Feng, Fuyu Lv, Weichen Shen, Menghan Wang, Fei Sun, Yu Zhu, Keping Yang；<br>论文：<a href="http://t.cn/AiN9QZnV；代码：http://t.cn/AiN9QZnV；" target="_blank" rel="noopener">http://t.cn/AiN9QZnV；代码：http://t.cn/AiN9QZnV；</a></li>
+</ol>
+<p>阿里 at IJCAI2019，考虑到不同用户行为序列的session内行为同构与session之间行为异构的特性提出了基于sesssion的CTR预估模型DSIN。使用self-attention机制抽取session内用户兴趣，使用Bi-LSTM针对用户跨session兴趣进行建模。</p>
+<ol start="11">
+<li>Interaction-aware Factorization Machines for Recommender Systems, AAAI2019, Tencent<br>作者：Fuxing Hong, Dongbo Huang, Ge Chen；<br>论文：<a href="http://t.cn/Ai0WHak5；代码：http://t.cn/Ai0WHakt；" target="_blank" rel="noopener">http://t.cn/Ai0WHak5；代码：http://t.cn/Ai0WHakt；</a></li>
+</ol>
+<p>腾讯 at AAAI2019，提出IFM通过特征以及特征组不同角度灵活学习特征间交互的重要性，并提出了通用的Interation-NN框架和DeepIFM来捕捉高阶交互，效果优于DeepFM并开源了代码。</p>
+<ol start="12">
+<li>Multi-Interest Network with Dynamic Routing for Recommendation at Tmall<br>作者：Chao Li, Zhiyuan Liu, Mengmeng Wu, …, Qiwei Chen, Wei Li, Dik Lun Lee<br>论文：<a href="http://t.cn/AiOao6I4；解读：http://t.cn/AiOao6I4；" target="_blank" rel="noopener">http://t.cn/AiOao6I4；解读：http://t.cn/AiOao6I4；</a></li>
+</ol>
+<p>阿里天猫提出MIND模型通过Dynamic Routing的方法从用户行为和用户属性信息中动态学习出多个表示用户兴趣的向量，更好的捕捉用户的多样兴趣，来提升召回的丰富度和准确度，效果好于YoutubeDNN。</p>
+<ol start="13">
+<li>Practice on Long Sequential User Behavior Modeling for Click-Through Rate Prediction, KDD 2019, Alibaba<br>作者：Qi Pi, Weijie Bian, Guorui Zhou, Xiaoqiang Zhu, Kun Gai；<br>论文：<a href="http://t.cn/AiN4s4oe；" target="_blank" rel="noopener">http://t.cn/AiN4s4oe；</a></li>
+</ol>
+<p>阿里 at KDD2019，通过系统设计解决用户超长行为历史下CTR建模与在线预测性能瓶颈，效果好于GRU4Rec和DIEN。</p>
+<ol start="14">
+<li>Neural News Recommendation with Long- and Short-term User Representations, ACL 2019, Microsoft<br>作者：Mingxiao An，Fangzhao Wu，Chuhan Wu，Kun Zhang，Zheng Liu，Xing Xie；<br>论文：<a href="http://t.cn/Ai029G81；" target="_blank" rel="noopener">http://t.cn/Ai029G81；</a></li>
+</ol>
+<p>微软 at ACL 2019，LSTUR用于在新闻推荐任务中同时学习用户长期和短期的兴趣表示。模型的整体结构可分为新闻编码器、用户长期兴趣和短期兴趣模型、以及候选新闻的个性化分数预测模型，效果好于GRU4Rec。</p>
+<ol start="15">
+<li>Hierarchical Gating Networks for Sequential Recommendation, KDD 2019<br>作者：Chen Ma, Peng Kang, Xue Liu；<br>论文：<a href="http://t.cn/AipuFYkG；代码：http://t.cn/AipuFYkb；" target="_blank" rel="noopener">http://t.cn/AipuFYkG；代码：http://t.cn/AipuFYkb；</a></li>
+</ol>
+<p>KDD2019，HGN提出通过feature与instance gating的多层级结构结合BPR来更好的捕获用户的长短期兴趣，效果好于GRU4Rec以及NextItRec。</p>
+<ol start="16">
+<li>Behavior Sequence Transformer for E-commerce Recommendation in Alibaba, Alibaba<br>作者：Qiwei Chen, Huan Zhao, Wei Li, Pipei Huang, Wenwu Ou<br>论文：<a href="http://t.cn/Ai9JgWoJ；解读：http://t.cn/AiKBda4q" target="_blank" rel="noopener">http://t.cn/Ai9JgWoJ；解读：http://t.cn/AiKBda4q</a></li>
+</ol>
+<p>阿里巴巴搜索推荐事业部的新研究，首次使用强大的 Transformer 模型捕获用户行为序列的序列信号，供电子商务场景的推荐系统使用。原有DIN 提出使用注意力机制来捕获候选项与用户先前点击商品之间的相似性，但未考虑用户行为序列背后的序列性质。离线实验和在线 A/B 测试表明，BST 与现有方法相比有明显优势。目前 BST 已经部署在淘宝推荐的 rank 阶段，每天为数亿消费者提供推荐服务[2]。</p>
+<ol start="17">
+<li>Operation-aware Neural Networks for User Response Prediction<br>作者：Yi Yang, Baile Xu, Furao Shen, Jian Zhao；<br>论文：<a href="http://t.cn/AiO2Dp5k；代码：http://t.cn/Ev4H3Jm；" target="_blank" rel="noopener">http://t.cn/AiO2Dp5k；代码：http://t.cn/Ev4H3Jm；</a></li>
+</ol>
+<p>深度CTR预估新积木：PNN + FFM - FM = ONN模型，效果好于DeepFM和PNN。</p>
+<ol start="18">
+<li>BERT4Rec: Sequential Recommendation with Bidirectional Encoder Representations from Transformer, Alibaba<br>作者：Fei Sun, Jun Liu, Jian Wu, Changhua Pei, Xiao Lin, Wenwu Ou, Peng Jiang；<br>论文：<a href="http://t.cn/AiNqPitA；" target="_blank" rel="noopener">http://t.cn/AiNqPitA；</a></li>
+</ol>
+<p>Transformer引入推荐系统工业界，利用用户历史点击序列预测下一个点击item，效果超过GRU4Rec。</p>
+<ol start="19">
+<li>A Capsule Network for Recommendation and Explaining What You Like and Dislike, SIGIR2019, Alibaba<br>作者：henliang Li, Cong Quan, Li Peng, Yunwei Qi, Yuming Deng, Libing Wu；<br>论文：A Capsule Network for Recommendation and Explaining What You Like and Dislike；</li>
+</ol>
+<p>阿里 at SIGIR2019，胶囊神经网络应用于推荐提出CARP模型来从评论中更好地建模用户对商品的喜好程度，效果好于最新的ANR等。</p>
+<ol start="20">
+<li>Representation Learning-Assisted Click-Through Rate Prediction, IJCAI 2019, Alibaba<br>作者： Wentao Ouyang, Xiuwu Zhang, Shukui Ren, Chao Qi, Zhaojie Liu, Yanlong Du；<br>论文：<a href="http://t.cn/Ai0jcGIZ；代码：http://t.cn/Ai0jcGIw；" target="_blank" rel="noopener">http://t.cn/Ai0jcGIZ；代码：http://t.cn/Ai0jcGIw；</a></li>
+</ol>
+<p>阿里 at IJCAI2019，提出DeepMCP模型通过匹配、关联、预测三个子模块更好地建模用户-ad，ad之间以及特征-CTR关系，效果优于DeepFM并开源了代码。</p>
+
+
+            
+            <div class="post-reward">
+                <a id="rewardBtn" href="javascript:;" class="post-reward-btn waves-effect waves-circle waves-light">赏</a>
+            </div>
+            
+            
+            <blockquote>
+                <p>
+                本文地址：
+                <a href="http://easonlv.github.io/2019/09/28/深度推荐系统与CTR预估2019年上半年值得精读的论文/" target="_blank" rel="external">http://easonlv.github.io/2019/09/28/深度推荐系统与CTR预估2019年上半年值得精读的论文/</a>
+                </p>
+                <footer><cite><a href="http://easonlv.github.io">@Diving into Data</a></cite></footer>
+            </blockquote>
+            </div>
+            
+<nav class="post-nav">
+  
+
+  
+    <div class="waves-block waves-effect next fr">
+      <a href="/2019/09/28/工业界深度推荐系统与CTR预估论文/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">工业界深度推荐系统与CTR预估论文</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+            
+            
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="深度推荐系统与CTR预估2019年上半年值得精读的论文" data-title="深度推荐系统与CTR预估2019年上半年值得精读的论文" data-url="http://easonlv.github.io/2019/09/28/深度推荐系统与CTR预估2019年上半年值得精读的论文/index.html"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ysblog"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+        </div>
+    </div>
+</article>
+    </div>
+  </main>
+<div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+<script>
+var BLOG_SHARE = {
+    title: "深度推荐系统与CTR预估2019年上半年值得精读的论文",
+    pic: "/img/logo.jpg",
+    summary: document.getElementsByName('summary')[0].content,
+    url: "http://easonlv.github.io/2019/09/28/深度推荐系统与CTR预估2019年上半年值得精读的论文/index.html"
+};
+</script>
+<div class="global-share" id="global-share">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" href="javascript:;" data-title="微博" data-service="tsina">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns" href="javascript:;" data-title="微信" data-service="weixin">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" href="javascript:;" data-title=" QQ" data-service="cqq">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" href="javascript:;" data-title=" Facebook" data-service="fb">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" href="javascript:;" data-title=" Twitter" data-service="twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="douban share-sns" href="javascript:;" data-title="豆瓣" data-service="douban">
+          豆
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+
+<div id="reward" class="reward-lay">
+    <a class="reward-off" id="rewardOff" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢支持~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<script type="text/template" id="search-tpl">
+<li class="item">
+    <a href="/{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</script>
+
+<script src="/js/search.js"></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
